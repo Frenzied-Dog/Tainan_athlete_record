@@ -38,7 +38,8 @@ class RaceRecord(models.Model):
     def __str__(self):
         """String for representing the Race object (in Admin site etc.)."""
         return f"{self.athlete.name} - {self.race_name} ({self.date})"
-    
+
+
 class HurtRecord(models.Model):
     """A typical class defining a model, derived from the Model class."""
 

@@ -13,16 +13,16 @@ class Athlete(models.Model):
     emr_phone = models.CharField(max_length=10, help_text='緊急聯絡電話')
     address = models.CharField(max_length=50, help_text='地址')
     birth = models.DateField(help_text='生日')
-    image = models.ImageField(upload_to='uploads/athlete/', blank=True, null=True)
+    avatar = models.ImageField(upload_to='uploads/athlete/', blank=True, null=True)
     
                                  
     # Metadata
     class Meta:
         ordering = ['name']
     
-    def get_image(self):
-        if self.image:
-            return 'http://127.0.0.1:8000' + self.image.url
+    def get_avatar(self):
+        if self.avatar:
+            return 'http://127.0.0.1:8000' + self.avatar.url
         return ''
 
     # Methods
@@ -38,15 +38,15 @@ class Coach(models.Model):
     school = models.CharField(max_length=30, help_text='所屬學校')
     phone = models.CharField(max_length=10, help_text='聯絡電話')
     mail = models.EmailField(help_text='電子郵件')
-    image = models.ImageField(upload_to='uploads/coach/', blank=True, null=True)
+    avatar = models.ImageField(upload_to='uploads/coach/', blank=True, null=True)
     
     # Metadata
     class Meta:
         ordering = ['name']
 
-    def get_image(self):
-        if self.image:
-            return 'http://127.0.0.1:8000' + self.image.url
+    def get_avatar(self):
+        if self.avatar:
+            return 'http://127.0.0.1:8000' + self.avatar.url
         return ''
 
     # Methods
