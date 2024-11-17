@@ -1,5 +1,5 @@
 """
-WSGI config for tainan_athletes project.
+WSGI config for tainan_athletes_django project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 
@@ -11,6 +11,6 @@ import os
 
 from django.core.wsgi import get_wsgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'tainan_athletes.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'tainan_athletes_django.settings')
 
 application = get_wsgi_application()
