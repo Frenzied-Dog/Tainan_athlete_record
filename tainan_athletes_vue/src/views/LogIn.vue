@@ -32,7 +32,7 @@ export default {
 		async handleLogin() {
 			try {
 				// 發送登入請求到 Django 後端
-				const response = await axios.post("http://localhost:8000/api/auth/login/", {
+				const response = await axios.post("http://localhost:8000/api/user-data/auth/login/", {
 					username: this.username,
 					password: this.password,
 				});

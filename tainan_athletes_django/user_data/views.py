@@ -1,9 +1,13 @@
 from django.contrib.auth import authenticate
-from django.contrib.auth.models import Group
+# from django.contrib.auth.models import Group
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
-from rest_framework.permissions import IsAuthenticated
+# from rest_framework.permissions import IsAuthenticated
+
+from rest_framework import generics
+from .models import Athlete, Coach
+from .serializers import AthleteSerializer, CoachSerializer
 
 class LoginAPIView(APIView):
     def post(self, request, *args, **kwargs):
@@ -29,15 +33,21 @@ class LoginAPIView(APIView):
             return Response({"error": "Invalid credentials"}, status=401)
 
 
-# class UserInfoAPIView(APIView):
-#     permission_classes = [IsAuthenticated]
+class AthleteListCreateView(generics.ListCreateAPIView):
+    queryset = Athlete.objects.all()
+    serializer_class = AthleteSerializer
 
-#     def get(self, request, *args, **kwargs):
-#         user = request.user
-#         groups = [group.name for group in user.groups.all()]  # 獲取用戶所屬群組
 
-#         return Response({
-#             "username": user.username,
-#             # "email": user.email,
-#             "groups": groups,
-#         })
+class AthleteDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Athlete.objects.all()
+    serializer_class = AthleteSerializer
+
+
+class CoachListCreateView(generics.ListCreateAPIView):
+    queryset = Coach.objects.all()
+    serializer_class = CoachSerializer
+
+
+class CoachDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Coach.objects.all()
+    serializer_class = CoachSerializer
