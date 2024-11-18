@@ -56,8 +56,10 @@ export default {
 			} catch (error) {
 				// 登入失敗時的提示
 				if (error.response && error.response.status === 401) {
+					console.log(error.response);
 					alert("登入失敗，使用者名稱或密碼錯誤！");
 				} else {
+					console.log(error.response);
 					alert("登入時發生錯誤，請稍後再試。");
 				}
 			}
@@ -109,8 +111,9 @@ label {
 }
 
 input {
-	width: 100%;
+	width: 95%; /* add this */
 	padding: 0.8rem;
+	padding: 0.8rem 0rem 0.8rem 1rem;
 	border: 1px solid #ccc;
 	border-radius: 5px;
 	font-size: 1rem;
