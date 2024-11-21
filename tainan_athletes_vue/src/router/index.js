@@ -2,12 +2,14 @@ import axios, { Axios } from "axios";
 import { createRouter, createWebHistory } from 'vue-router'
 import LogIn from "../views/LogIn.vue";
 import CoachDashboard from "../views/CoachDashboard.vue";
-import AthleteDashboard from "../views/AthleteDashboard.vue";
+import AthleteBasicInformation from "../views/AthleteBasicInformation.vue";
+import AthleteTrain from "../views/AthleteTrain.vue";
 
 const routes = [
     { path: "/login", name: "Login", component: LogIn },
     { path: "/coach-dashboard", name: "CoachDashboard", component: CoachDashboard },
-    { path: "/athlete-dashboard", name: "AthleteDashboard", component: AthleteDashboard },
+    { path: "/athlete-basic-info", name: "AthleteBasicInformation", component: AthleteBasicInformation },
+    { path: "/athlete-train", name: "AthleteTrain", component: AthleteTrain },
     { path: "/:pathMatch(.*)*", redirect: "/login" }, // 其他未知路徑導向 login
 ]
 
@@ -34,7 +36,7 @@ router.beforeEach(async (to, from, next) => {
                 if (groups.includes("Coach")) {
                     next("/coach-dashboard");
                 } else if (groups.includes("Athlete")) {
-                    next("/athlete-dashboard");
+                    next("/athlete-basic-info");
                 } else {
                     alert("未知群組，請聯繫管理員！");
                     next("/login");

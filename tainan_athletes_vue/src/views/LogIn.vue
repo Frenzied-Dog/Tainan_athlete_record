@@ -49,7 +49,8 @@ export default {
 				if (groups.includes("Coach")) {
 					this.$router.push("/coach-dashboard");
 				} else if (groups.includes("Athlete")) {
-					this.$router.push("/athlete-dashboard");
+					this.$router.push("/athlete-basic-info");
+					// this.$router.push("/athlete-train"); // add this
 				} else {
 					alert("未知群組，請聯繫管理員！");
 				}
