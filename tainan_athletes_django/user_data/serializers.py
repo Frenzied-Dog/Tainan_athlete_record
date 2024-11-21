@@ -1,14 +1,8 @@
 from rest_framework import serializers
-from .models import Athlete, Coach
+from .models import UserProfile
 
 
-class AthleteSerializer(serializers.ModelSerializer):
+class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Athlete
-        fields = '__all__'  # 包括所有字段
-
-
-class CoachSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Coach
+        model = UserProfile
         fields = '__all__'  # 包括所有字段

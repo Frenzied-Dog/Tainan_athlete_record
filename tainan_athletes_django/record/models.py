@@ -1,10 +1,10 @@
 
 from django.db import models
-from user_data.models import Athlete
+from user_data.models import UserProfile
 
 class DailyTrainRecord(models.Model):
     # Fields
-    athlete = models.ForeignKey(Athlete, on_delete=models.CASCADE, related_name='daily_train_record', help_text='運動員')
+    athlete = models.ForeignKey(UserProfile, on_delete=models.CASCADE, related_name='daily_train_record', help_text='運動員')
     date = models.DateField(help_text='訓練日期')
     # 以田徑選手為例
     distance = models.FloatField(help_text='跑步距離 (公里)')
@@ -27,7 +27,7 @@ class RaceRecord(models.Model):
     """A typical class defining a model, derived from the Model class."""
 
     # Fields
-    athlete = models.ForeignKey(Athlete, on_delete=models.CASCADE, related_name='race_record', help_text='運動員')
+    athlete = models.ForeignKey(UserProfile, on_delete=models.CASCADE, related_name='race_record', help_text='運動員')
     date = models.DateField(help_text='比賽日期')
     race_name = models.CharField(max_length=10, help_text='比賽名稱')
     description = models.TextField(max_length=255, help_text='比賽描述')
@@ -48,7 +48,7 @@ class HurtRecord(models.Model):
     """A typical class defining a model, derived from the Model class."""
 
     # Fields
-    athlete = models.ForeignKey(Athlete, on_delete=models.CASCADE, related_name='hurt_records', help_text='運動員')
+    athlete = models.ForeignKey(UserProfile, on_delete=models.CASCADE, related_name='hurt_records', help_text='運動員')
     date = models.DateField(help_text='受傷日期')
     injury_type = models.CharField(max_length=10, help_text='受傷部位')
     description = models.TextField(max_length=255, help_text='受傷描述')

@@ -6,8 +6,8 @@ from rest_framework_simplejwt.tokens import RefreshToken
 # from rest_framework.permissions import IsAuthenticated
 
 from rest_framework import generics
-from .models import Athlete, Coach
-from .serializers import AthleteSerializer, CoachSerializer
+from .models import UserProfile
+from .serializers import ProfileSerializer
 
 class LoginAPIView(APIView):
     def post(self, request, *args, **kwargs):
@@ -33,21 +33,11 @@ class LoginAPIView(APIView):
             return Response({"error": "Invalid credentials"}, status=401)
 
 
-class AthleteListCreateView(generics.ListCreateAPIView):
-    queryset = Athlete.objects.all()
-    serializer_class = AthleteSerializer
+class ProfileListCreateView(generics.ListCreateAPIView):
+    queryset = UserProfile.objects.all()
+    serializer_class = ProfileSerializer
 
 
-class AthleteDetailView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Athlete.objects.all()
-    serializer_class = AthleteSerializer
-
-
-class CoachListCreateView(generics.ListCreateAPIView):
-    queryset = Coach.objects.all()
-    serializer_class = CoachSerializer
-
-
-class CoachDetailView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Coach.objects.all()
-    serializer_class = CoachSerializer
+class ProfileDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = UserProfile.objects.all()
+    serializer_class = ProfileSerializer
