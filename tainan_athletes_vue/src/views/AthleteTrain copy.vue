@@ -47,17 +47,15 @@
         <table class="dataframe table table-striped">
           <thead>
             <tr style="text-align: right;">
-              <th>紀錄日期</th>
               <th>量測項目</th>
               <th>量測單位</th>
               <th>必填</th>
               <th>資料範圍</th>
-              <th>數據</th>
+              <th>範例</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td><time>2024-10-13</time></td>
               <td>跑步訓練狀態指數來源</td>
               <td></td>
               <td>否</td>
@@ -65,7 +63,6 @@
               <td></td>
             </tr>
             <tr>
-              <td><time>2024-10-13</time></td>
               <td>最大心率</td>
               <td>次數/每分鐘</td>
               <td>否</td>
@@ -73,7 +70,6 @@
               <td>1</td>
             </tr>
             <tr>
-              <td><time>2024-10-13</time></td>
               <td>起始緯度</td>
               <td>緯度</td>
               <td>否</td>
@@ -81,7 +77,6 @@
               <td>1.1</td>
             </tr>
             <tr>
-              <td><time>2024-10-13</time></td>
               <td>前腳掌壓力佔比(平均值)</td>
               <td>%</td>
               <td>否</td>
@@ -89,7 +84,6 @@
               <td>70.1</td>
             </tr>
             <tr>
-              <td><time>2024-10-13</time></td>
               <td>平均配速(秒/公里)</td>
               <td>秒/公里</td>
               <td>否</td>
@@ -97,7 +91,6 @@
               <td>1</td>
             </tr>
             <tr>
-              <td><time>2024-10-13</time></td>
               <td>路線名稱</td>
               <td></td>
               <td>否</td>
@@ -105,7 +98,6 @@
               <td></td>
             </tr>
             <tr>
-              <td><time>2024-10-13</time></td>
               <td>狀況指數</td>
               <td>數值</td>
               <td>否</td>
@@ -113,7 +105,6 @@
               <td>5.1</td>
             </tr>
             <tr>
-              <td><time>2024-10-13</time></td>
               <td>訓練指數</td>
               <td>數值</td>
               <td>否</td>
@@ -121,7 +112,6 @@
               <td>500.1</td>
             </tr>
             <tr>
-              <td><time>2024-10-13</time></td>
               <td>比賽項目</td>
               <td></td>
               <td>否</td>
@@ -129,7 +119,6 @@
               <td></td>
             </tr>
             <tr>
-              <td><time>2024-10-13</time></td>
               <td>70%儲備心率</td>
               <td>次數/每分鐘</td>
               <td>否</td>
@@ -137,7 +126,6 @@
               <td>160</td>
             </tr>
             <tr>
-              <td><time>2024-10-13</time></td>
               <td>疲勞指數</td>
               <td>數值</td>
               <td>否</td>
@@ -145,7 +133,6 @@
               <td>40.1</td>
             </tr>
             <tr>
-              <td><time>2024-10-13</time></td>
               <td>消耗卡路里</td>
               <td>千卡</td>
               <td>否</td>
@@ -153,7 +140,6 @@
               <td>1.3</td>
             </tr>
             <tr>
-              <td><time>2024-10-13</time></td>
               <td>總下降海拔</td>
               <td>公尺</td>
               <td>否</td>
@@ -161,7 +147,6 @@
               <td>1.4</td>
             </tr>
             <tr>
-              <td><time>2024-10-13</time></td>
               <td>結束緯度</td>
               <td>緯度</td>
               <td>否</td>
@@ -169,7 +154,6 @@
               <td>1.3</td>
             </tr>
             <tr>
-              <td><time>2024-10-13</time></td>
               <td>活動tcx檔</td>
               <td></td>
               <td>否</td>
@@ -177,7 +161,6 @@
               <td></td>
             </tr>
             <tr>
-              <td><time>2024-10-13</time></td>
               <td>體能指數</td>
               <td>數值</td>
               <td>否</td>
@@ -185,7 +168,6 @@
               <td>30.1</td>
             </tr>
             <tr>
-              <td><time>2024-10-13</time></td>
               <td>最大速度(公里/小時)</td>
               <td>公里/小時</td>
               <td>否</td>
@@ -193,7 +175,6 @@
               <td>1.1</td>
             </tr>
             <tr>
-              <td><time>2024-10-13</time></td>
               <td>結束經度</td>
               <td>經度</td>
               <td>否</td>
@@ -201,7 +182,6 @@
               <td>1.4</td>
             </tr>
             <tr>
-              <td><time>2024-10-13</time></td>
               <td>活動fit檔</td>
               <td></td>
               <td>否</td>
@@ -209,7 +189,6 @@
               <td></td>
             </tr>
             <tr>
-              <td><time>2024-10-13</time></td>
               <td>比賽名稱</td>
               <td></td>
               <td>否</td>
@@ -217,7 +196,6 @@
               <td></td>
             </tr>
             <tr>
-              <td><time>2024-10-13</time></td>
               <td>平均步頻</td>
               <td>步數/每分鐘</td>
               <td>否</td>
@@ -225,7 +203,6 @@
               <td>1.1</td>
             </tr>
             <tr>
-              <td><time>2024-10-13</time></td>
               <td>跑步類型</td>
               <td></td>
               <td>否</td>
@@ -233,7 +210,6 @@
               <td></td>
             </tr>
             <tr>
-              <td><time>2024-10-13</time></td>
               <td>內旋過度</td>
               <td></td>
               <td>否</td>
@@ -241,7 +217,6 @@
               <td>0</td>
             </tr>
             <tr>
-              <td><time>2024-10-13</time></td>
               <td>起始經度</td>
               <td>經度</td>
               <td>否</td>
@@ -249,7 +224,6 @@
               <td>1.2</td>
             </tr>
             <tr>
-              <td><time>2024-10-13</time></td>
               <td>最低海拔</td>
               <td>公尺</td>
               <td>否</td>
@@ -257,7 +231,6 @@
               <td>1.7</td>
             </tr>
             <tr>
-              <td><time>2024-10-13</time></td>
               <td>儲備心率</td>
               <td>次數/每分鐘</td>
               <td>否</td>
@@ -265,7 +238,6 @@
               <td>120</td>
             </tr>
             <tr>
-              <td><time>2024-10-13</time></td>
               <td>平均速度(公里/小時)</td>
               <td>公里/小時</td>
               <td>是</td>
@@ -273,7 +245,6 @@
               <td>1.1</td>
             </tr>
             <tr>
-              <td><time>2024-10-13</time></td>
               <td>步數</td>
               <td>步</td>
               <td>否</td>
@@ -281,7 +252,6 @@
               <td>1</td>
             </tr>
             <tr>
-              <td><time>2024-10-13</time></td>
               <td>最高步頻</td>
               <td>步數/每分鐘</td>
               <td>否</td>
@@ -289,7 +259,6 @@
               <td>1.1</td>
             </tr>
             <tr>
-              <td><time>2024-10-13</time></td>
               <td>總爬升海拔</td>
               <td>公尺</td>
               <td>否</td>
@@ -297,7 +266,6 @@
               <td>1.5</td>
             </tr>
             <tr>
-              <td><time>2024-10-13</time></td>
               <td>鞋子品牌(型號)</td>
               <td></td>
               <td>否</td>
@@ -305,7 +273,6 @@
               <td></td>
             </tr>
             <tr>
-              <td><time>2024-10-13</time></td>
               <td>跑步目標</td>
               <td></td>
               <td>否</td>
@@ -313,7 +280,6 @@
               <td></td>
             </tr>
             <tr>
-              <td><time>2024-10-13</time></td>
               <td>活動gpx檔</td>
               <td></td>
               <td>否</td>
@@ -321,7 +287,6 @@
               <td></td>
             </tr>
             <tr>
-              <td><time>2024-10-13</time></td>
               <td>後腳掌壓力佔比(平均值)</td>
               <td>%</td>
               <td>否</td>
@@ -329,7 +294,6 @@
               <td>29.5</td>
             </tr>
             <tr>
-              <td><time>2024-10-13</time></td>
               <td>距離(公里)</td>
               <td>公里</td>
               <td>是</td>
@@ -337,7 +301,6 @@
               <td>1.5</td>
             </tr>
             <tr>
-              <td><time>2024-10-13</time></td>
               <td>比賽名次</td>
               <td></td>
               <td>否</td>
@@ -345,7 +308,6 @@
               <td></td>
             </tr>
             <tr>
-              <td><time>2024-10-13</time></td>
               <td>跑力</td>
               <td>估計值</td>
               <td>否</td>
@@ -353,7 +315,6 @@
               <td>80</td>
             </tr>
             <tr>
-              <td><time>2024-10-13</time></td>
               <td>步幅</td>
               <td>公尺</td>
               <td>否</td>
@@ -361,7 +322,6 @@
               <td>2.52</td>
             </tr>
             <tr>
-              <td><time>2024-10-13</time></td>
               <td>內旋不足</td>
               <td></td>
               <td>否</td>
@@ -369,7 +329,6 @@
               <td>1</td>
             </tr>
             <tr>
-              <td><time>2024-10-13</time></td>
               <td>移動時間</td>
               <td>秒</td>
               <td>否</td>
@@ -377,7 +336,6 @@
               <td>1</td>
             </tr>
             <tr>
-              <td><time>2024-10-13</time></td>
               <td>最高海拔</td>
               <td>公尺</td>
               <td>否</td>
@@ -385,7 +343,6 @@
               <td>1.6</td>
             </tr>
             <tr>
-              <td><time>2024-10-13</time></td>
               <td>花費時間</td>
               <td>秒</td>
               <td>是</td>
@@ -393,7 +350,6 @@
               <td>1</td>
             </tr>
             <tr>
-              <td><time>2024-10-13</time></td>
               <td>平均心率</td>
               <td>次數/每分鐘</td>
               <td>否</td>
@@ -431,13 +387,15 @@ export default {
   color: #ffffff;
   width: 250px;
   display: flex;
-  flex-direction: column; /* 垂直排列內容 */
+  flex-direction: column;
+  /* 垂直排列內容 */
   padding: 20px;
   box-sizing: border-box;
 }
 
 nav {
-  overflow-y: auto; /* 垂直滾動 */
+  overflow-y: auto;
+  /* 垂直滾動 */
 }
 
 /* Logo 區域樣式 */
@@ -545,7 +503,8 @@ a.router-link-exact-active {
 
 /* 頁尾樣式 */
 footer {
-  position: relative; /* 避免遮擋主內容 */
+  position: relative;
+  /* 避免遮擋主內容 */
   background-color: #f0f0f0;
   width: 100%;
   text-align: center;

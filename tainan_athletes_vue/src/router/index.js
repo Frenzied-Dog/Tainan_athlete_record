@@ -4,12 +4,14 @@ import LogIn from "../views/LogIn.vue";
 import CoachDashboard from "../views/CoachDashboard.vue";
 import AthleteBasicInformation from "../views/AthleteBasicInformation.vue";
 import AthleteTrain from "../views/AthleteTrain.vue";
+// import Test from "../views/test.vue";
 
 const routes = [
     { path: "/login", name: "Login", component: LogIn },
     { path: "/coach-dashboard", name: "CoachDashboard", component: CoachDashboard },
     { path: "/athlete-basic-info", name: "AthleteBasicInformation", component: AthleteBasicInformation },
     { path: "/athlete-train", name: "AthleteTrain", component: AthleteTrain },
+    // { path: "/athlete-test", name: "AthleteTest", component: Test },
     { path: "/:pathMatch(.*)*", redirect: "/login" }, // 其他未知路徑導向 login
 ]
 
