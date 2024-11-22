@@ -47,14 +47,13 @@ export default {
 
 				// 根據 Group 導向對應的 Dashboard
 				if (groups.includes("Coach")) {
-					this.$router.push("/coach-dashboard");
+					this.$router.push("/coach-basic");
 				} else if (groups.includes("Athlete")) {
-					// this.$router.push("/athlete-basic-info");
-					// this.$router.push("/athlete-test");
-					this.$router.push("/athlete-train"); // add this
+					this.$router.push("/athlete-basic");
+					// this.$router.push("/athlete-train"); // add this
 				} else {
 					alert("未知群組，請聯繫管理員！");
-				}x
+				}
 			} catch (error) {
 				// 登入失敗時的提示
 				if (error.response && error.response.status === 401) {

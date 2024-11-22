@@ -8,45 +8,50 @@
       </div>
       <div class="user-info">
         <img class="user-avatar" src="@/assets/user-avatar.png" alt="User Avatar" />
-        <p>運動員</p>
+        <p>王小明</p>
       </div>
       <nav>
         <ul>
           <li>
-            <span class="menu-title">>> 使用者基本資料</span>
+            <span class="menu-title"><router-link to="/athlete-basic">>> 使用者基本資料</router-link></span>
             <ul class="submenu">
-              <li><router-link to="/basic">> 基本資料</router-link></li>
-              <li><router-link to="/training">> 教練資料</router-link></li>
+              <li><a href="#basicData">> 基本資料</a></li>
+              <li><a href="#coachData">> 教練資料</a></li>
             </ul>
           </li>
           <li>
-            <span class="menu-title">>> 運動訓練數據紀錄</span>
+            <span class="menu-title"><router-link to="/athlete-train">>> 運動訓練數據紀錄</router-link></span>
             <ul class="submenu">
-              <li><router-link to="/training-summary">> 總覽</router-link></li>
-              <li><router-link to="/training-data">> 數據紀錄</router-link></li>
+              <li><a href="#dataRecord">> 總覽</a></li>
+              <li><a href="#dataAnalyze">> 數據分析</a></li>
             </ul>
           </li>
           <li>
-            <span class="menu-title">>> 健康紀錄</span>
+            <span class="menu-title"><router-link to="/athlete-competition">>> 競賽紀錄</router-link></span>
             <ul class="submenu">
-              <li><router-link to="/health-summary">> 總覽</router-link></li>
-              <li><router-link to="/health-data">> 數據紀錄</router-link></li>
-              <li><router-link to="/special-data">> 特殊紀錄</router-link></li>
+              <li><a href="#">> 總覽</a></li>
+              <li><a href="#">> 數據紀錄</a></li>
+              <li><a href="#">> 特殊紀錄</a></li>
             </ul>
           </li>
-          <li><router-link class="menu-title" to="/competition">>> 競賽紀錄</router-link></li>
-          <li><router-link class="menu-title" to="/nutrition">>> 營養</router-link></li>
-          <li><router-link class="menu-title" to="/injury">>> 受傷紀錄</router-link></li>
+          <li><span class="menu-title"><router-link to="/athlete-health">>> 健康紀錄</router-link></span></li>
+          <li><span class="menu-title"><router-link to="/athlete-nutrition">>> 營養紀錄</router-link></span></li>
+          <li><span class="menu-title"><router-link to="/athlete-hurt">>> 受傷紀錄</router-link></span></li>
         </ul>
       </nav>
     </aside>
     <!-- 主畫面 -->
     <div class="main-div">
-      <main class="main-content">
+      <!-- 上方列 -->
+      <div class="upsidebar">
         <h1>基本資料</h1>
+        <button type="button" class="logout" @click="logout">登出</button> <!-- 觸發 js -->
+      </div>
+      <!-- 主頁面 -->
+      <main class="main-content">
         <!-- 運動員資料卡片 -->
         <div class="profile-section">
-          <h2 class="section-title">運動員資料</h2>
+          <h2 class="section-title" id="basicData">運動員資料</h2>
           <div class="profile-card">
             <div class="profile-photo">
               <img src="@/assets/user-avatar.png" alt="運動員照片" />
@@ -65,7 +70,7 @@
 
         <!-- 教練資料卡片 -->
         <div class="profile-section">
-          <h2 class="section-title">教練資料</h2>
+          <h2 class="section-title" id="coachData">教練資料</h2>
           <div class="profile-card">
             <div class="profile-photo">
               <img src="@/assets/coach-avatar.png" alt="教練照片" />
@@ -82,6 +87,7 @@
           </div>
         </div>
       </main>
+      <!-- 頁尾 -->
       <footer>
         <p>台南優秀運動員健康管理系統</p>
       </footer>
@@ -92,7 +98,14 @@
 <script>
 export default {
   name: "Sidebar",
+  methods: {
+    logout() {
+      alert('您已登出');
+      this.$router.push('/login'); // Vue Router 的導航方法
+    },
+  },
 };
+
 </script>
 
 <style scoped>
@@ -181,7 +194,16 @@ li {
   cursor: pointer;
 }
 
+.menu-title a {
+  color: #ffffff;
+  text-decoration: none;
+}
+
 .menu-title:hover {
+  color: #43d895;
+}
+
+.menu-title a:hover {
   color: #43d895;
 }
 
@@ -275,4 +297,25 @@ footer p {
   margin: 0; /* 移除多餘的上下邊距 */
 }
 
+/* 上方列 */
+.upsidebar {
+  position: relative;
+  background-color: #f0f0f0;
+  width: 100%;
+  height: 60px;
+  text-align: center;
+  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.upsidebar h1 {
+  position: relative;
+  top: -10px;
+  text-align: center;
+}
+
+.logout {
+  position: absolute;
+  right: 20px;
+  top: 25px;
+}
 </style>

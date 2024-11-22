@@ -7,36 +7,25 @@
         <h2>台南優秀運動員<br />健康管理系統</h2>
       </div>
       <div class="user-info">
-        <img class="user-avatar" src="@/assets/user-avatar.png" alt="User Avatar" />
-        <p>王小明</p>
+        <img class="user-avatar" src="@/assets/coach-avatar.png" alt="User Avatar" />
+        <p>李大華</p>
       </div>
       <nav>
         <ul>
           <li>
-            <span class="menu-title"><router-link to="/athlete-basic">>> 使用者基本資料</router-link></span>
+            <span class="menu-title"><router-link to="/coach-basic">>> 使用者基本資料</router-link></span>
             <ul class="submenu">
               <li><a href="#basicData">> 基本資料</a></li>
-              <li><a href="#coachData">> 教練資料</a></li>
+              <!-- <li><a href="#coachData">> 教練資料</a></li> -->
             </ul>
           </li>
           <li>
-            <span class="menu-title"><router-link to="/athlete-train">>> 運動訓練數據紀錄</router-link></span>
+            <span class="menu-title"><router-link to="/coach-athlete">>> 運動員資料</router-link></span>
             <ul class="submenu">
-              <li><a href="#dataRecord">> 總覽</a></li>
-              <li><a href="#dataAnalyze">> 數據分析</a></li>
+              <li><a href="#athlete1">> 王小明</a></li>
+              <li><a href="#athlete2">> 李曉華</a></li>
             </ul>
           </li>
-          <li>
-            <span class="menu-title"><router-link to="/athlete-competition">>> 競賽紀錄</router-link></span>
-            <ul class="submenu">
-              <li><a href="#">> 總覽</a></li>
-              <li><a href="#">> 數據紀錄</a></li>
-              <li><a href="#">> 特殊紀錄</a></li>
-            </ul>
-          </li>
-          <li><span class="menu-title"><router-link to="/athlete-health">>> 健康紀錄</router-link></span></li>
-          <li><span class="menu-title"><router-link to="/athlete-nutrition">>> 營養紀錄</router-link></span></li>
-          <li><span class="menu-title"><router-link to="/athlete-hurt">>> 受傷紀錄</router-link></span></li>
         </ul>
       </nav>
     </aside>
@@ -45,10 +34,28 @@
       <!-- 上方列 -->
       <div class="upsidebar">
         <h1>基本資料</h1>
-        <button type="button" onclick="alert('您已登出')" class="logout">登出</button>
+        <button type="button" class="logout" @click="logout">登出</button> <!-- 觸發 js -->
       </div>
       <!-- 主頁面 -->
       <main class="main-content">
+        <!-- 教練資料卡片 -->
+        <div class="profile-section">
+          <h2 class="section-title" id="coachData">教練資料</h2>
+          <div class="profile-card">
+            <div class="profile-photo">
+              <img src="@/assets/coach-avatar.png" alt="教練照片" />
+            </div>
+            <div class="profile-details">
+              <p><strong>姓名：</strong>李大華</p>
+              <p><strong>身分證字號：</strong>B987654321</p>
+              <p><strong>性別：</strong>男</p>
+              <p><strong>出生日期：</strong>1985/05/15</p>
+              <p><strong>聯絡電話：</strong>0987-654-321</p>
+              <p><strong>電子郵件：</strong>coach@mail.com</p>
+              <p><strong>地址：</strong>台北市大安區和平東路一段200號</p>
+            </div>
+          </div>
+        </div>
       </main>
       <!-- 頁尾 -->
       <footer>
@@ -61,6 +68,12 @@
 <script>
 export default {
   name: "Sidebar",
+  methods: {
+    logout() {
+      alert('您已登出');
+      this.$router.push('/login'); // Vue Router 的導航方法
+    },
+  },
 };
 </script>
 
@@ -201,6 +214,41 @@ a.router-link-exact-active {
   flex-direction: column;
   flex: 1;
   position: relative;
+}
+
+/* 個人資料卡樣式 */
+.profile-card {
+  display: flex;
+  align-items: flex-start;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 20px;
+  background-color: #f9f9f9;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px; /* 卡片之間的間距 */
+}
+
+.profile-photo img {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  margin-right: 20px; /* 圖片與文字之間的間距 */
+}
+
+.profile-details {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  text-align: left;
+}
+
+.profile-details p {
+  margin: 5px 0;
+  font-size: 16px;
+}
+
+.profile-details p strong {
+  font-weight: bold;
 }
 
 /* 頁尾樣式 */

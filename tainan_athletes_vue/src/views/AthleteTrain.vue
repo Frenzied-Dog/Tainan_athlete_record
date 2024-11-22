@@ -8,42 +8,48 @@
       </div>
       <div class="user-info">
         <img class="user-avatar" src="@/assets/user-avatar.png" alt="User Avatar" />
-        <p>運動員</p>
+        <p>王小明</p>
       </div>
       <nav>
         <ul>
           <li>
-            <span class="menu-title">>> 使用者基本資料</span>
+            <span class="menu-title"><router-link to="/athlete-basic">>> 使用者基本資料</router-link></span>
             <ul class="submenu">
-              <li><router-link to="/basic">> 基本資料</router-link></li>
-              <li><router-link to="/training">> 教練資料</router-link></li>
+              <li><a href="#basicData">> 基本資料</a></li>
+              <li><a href="#coachData">> 教練資料</a></li>
             </ul>
           </li>
           <li>
-            <span class="menu-title">>> 運動訓練數據紀錄</span>
+            <span class="menu-title"><router-link to="/athlete-train">>> 運動訓練數據紀錄</router-link></span>
             <ul class="submenu">
-              <li><router-link to="/training-summary">> 總覽</router-link></li>
-              <li><router-link to="/training-data">> 數據紀錄</router-link></li>
+              <li><a href="#dataRecord">> 總覽</a></li>
+              <li><a href="#dataAnalyze">> 數據分析</a></li>
             </ul>
           </li>
           <li>
-            <span class="menu-title">>> 健康紀錄</span>
+            <span class="menu-title"><router-link to="/athlete-competition">>> 競賽紀錄</router-link></span>
             <ul class="submenu">
-              <li><router-link to="/health-summary">> 總覽</router-link></li>
-              <li><router-link to="/health-data">> 數據紀錄</router-link></li>
-              <li><router-link to="/special-data">> 特殊紀錄</router-link></li>
+              <li><a href="#">> 總覽</a></li>
+              <li><a href="#">> 數據紀錄</a></li>
+              <li><a href="#">> 特殊紀錄</a></li>
             </ul>
           </li>
-          <li><router-link class="menu-title" to="/competition">>> 競賽紀錄</router-link></li>
-          <li><router-link class="menu-title" to="/nutrition">>> 營養</router-link></li>
-          <li><router-link class="menu-title" to="/injury">>> 受傷紀錄</router-link></li>
+          <li><span class="menu-title"><router-link to="/athlete-health">>> 健康紀錄</router-link></span></li>
+          <li><span class="menu-title"><router-link to="/athlete-nutrition">>> 營養紀錄</router-link></span></li>
+          <li><span class="menu-title"><router-link to="/athlete-hurt">>> 受傷紀錄</router-link></span></li>
         </ul>
       </nav>
     </aside>
     <!-- 主畫面 -->
     <div class="main-div">
+      <!-- 上方列 -->
+      <div class="upsidebar">
+        <h1>運動訓練數據紀錄</h1>
+        <button type="button" class="logout" @click="logout">登出</button> <!-- 觸發 js -->
+      </div>
+      <!-- 主頁面 -->
       <main class="main-content">
-        <h1>紀錄訓練資料</h1>
+        <h2 id="dataRecord">總覽</h2>
         <table class="dataframe table table-striped">
           <thead>
             <tr style="text-align: right;">
@@ -402,7 +408,9 @@
             </tr>
           </tbody>
         </table>
+        <h2 id="dataAnalyze">數據分析</h2>
       </main>
+      <!-- 頁尾 -->
       <footer>
         <p>台南優秀運動員健康管理系統</p>
       </footer>
@@ -413,6 +421,12 @@
 <script>
 export default {
   name: "TrainingDataPage",
+  methods: {
+    logout() {
+      alert('您已登出');
+      this.$router.push('/login'); // Vue Router 的導航方法
+    },
+  },
 };
 </script>
 
@@ -457,6 +471,8 @@ nav {
   font-weight: bold;
   margin: 0;
   line-height: 1.2;
+  position: relative;
+  top: -5px; /* 向上微調文字 */
 }
 
 /* 使用者資訊樣式 */
@@ -500,7 +516,16 @@ li {
   cursor: pointer;
 }
 
+.menu-title a {
+  color: #ffffff;
+  text-decoration: none;
+}
+
 .menu-title:hover {
+  color: #43d895;
+}
+
+.menu-title a:hover {
   color: #43d895;
 }
 
@@ -556,6 +581,28 @@ footer {
 footer p {
   font-size: small;
   margin: 0;
+}
+
+/* 上方列 */
+.upsidebar {
+  position: relative;
+  background-color: #f0f0f0;
+  width: 100%;
+  height: 60px;
+  text-align: center;
+  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.upsidebar h1 {
+  position: relative;
+  top: -10px;
+  text-align: center;
+}
+
+.logout {
+  position: absolute;
+  right: 20px;
+  top: 25px;
 }
 
 /* 表格樣式 */

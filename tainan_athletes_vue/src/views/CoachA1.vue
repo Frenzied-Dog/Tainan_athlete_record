@@ -7,36 +7,25 @@
         <h2>台南優秀運動員<br />健康管理系統</h2>
       </div>
       <div class="user-info">
-        <img class="user-avatar" src="@/assets/user-avatar.png" alt="User Avatar" />
-        <p>王小明</p>
+        <img class="user-avatar" src="@/assets/coach-avatar.png" alt="User Avatar" />
+        <p>李大華</p>
       </div>
       <nav>
         <ul>
           <li>
-            <span class="menu-title"><router-link to="/athlete-basic">>> 使用者基本資料</router-link></span>
+            <span class="menu-title"><router-link to="/coach-basic">>> 使用者基本資料</router-link></span>
             <ul class="submenu">
               <li><a href="#basicData">> 基本資料</a></li>
-              <li><a href="#coachData">> 教練資料</a></li>
+              <!-- <li><a href="#coachData">> 教練資料</a></li> -->
             </ul>
           </li>
           <li>
-            <span class="menu-title"><router-link to="/athlete-train">>> 運動訓練數據紀錄</router-link></span>
+            <span class="menu-title"><router-link to="/coach-athlete">>> 運動員資料</router-link></span>
             <ul class="submenu">
-              <li><a href="#dataRecord">> 總覽</a></li>
-              <li><a href="#dataAnalyze">> 數據分析</a></li>
+              <li><a href="#athlete1">> 王曉明</a></li>
+              <li><a href="#athlete2">> 李曉華</a></li>
             </ul>
           </li>
-          <li>
-            <span class="menu-title"><router-link to="/athlete-competition">>> 競賽紀錄</router-link></span>
-            <ul class="submenu">
-              <li><a href="#">> 總覽</a></li>
-              <li><a href="#">> 數據紀錄</a></li>
-              <li><a href="#">> 特殊紀錄</a></li>
-            </ul>
-          </li>
-          <li><span class="menu-title"><router-link to="/athlete-health">>> 健康紀錄</router-link></span></li>
-          <li><span class="menu-title"><router-link to="/athlete-nutrition">>> 營養紀錄</router-link></span></li>
-          <li><span class="menu-title"><router-link to="/athlete-hurt">>> 受傷紀錄</router-link></span></li>
         </ul>
       </nav>
     </aside>
@@ -44,8 +33,8 @@
     <div class="main-div">
       <!-- 上方列 -->
       <div class="upsidebar">
-        <h1>基本資料</h1>
-        <button type="button" onclick="alert('您已登出')" class="logout">登出</button>
+        <h1>運動訓練數據紀錄</h1>
+        <button type="button" class="logout" @click="logout">登出</button> <!-- 觸發 js -->
       </div>
       <!-- 主頁面 -->
       <main class="main-content">
@@ -60,7 +49,19 @@
 
 <script>
 export default {
-  name: "Sidebar",
+  name: "TrainingDataPage",
+  methods: {
+    logout() {
+      alert('您已登出');
+      this.$router.push('/login'); // Vue Router 的導航方法
+    },
+    changePage1() {
+      this.$router.push('/login');
+    },
+    changePage2() {
+      this.$router.push('/login');
+    },
+  },
 };
 </script>
 
@@ -85,7 +86,7 @@ export default {
 }
 
 nav {
-  overflow-y: auto; /* 修改為只垂直滾動 */
+  overflow-y: auto; /* 垂直滾動 */
 }
 
 /* Logo 區域樣式 */
@@ -191,7 +192,6 @@ a.router-link-exact-active {
   background-color: #ffffff;
   overflow-y: auto;
   padding: 20px;
-  padding-bottom: 50px; /* 確保底部有 50px 空白區域 */
   box-sizing: border-box;
 }
 
@@ -203,19 +203,54 @@ a.router-link-exact-active {
   position: relative;
 }
 
+/* 個人資料卡樣式 */
+.profile-card {
+  display: flex;
+  align-items: flex-start;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 20px;
+  background-color: #f9f9f9;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px; /* 卡片之間的間距 */
+}
+
+.profile-photo img {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  margin-right: 20px; /* 圖片與文字之間的間距 */
+}
+
+.profile-details {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  text-align: left;
+}
+
+.profile-details p {
+  margin: 5px 0;
+  font-size: 16px;
+}
+
+.profile-details p strong {
+  font-weight: bold;
+}
+
 /* 頁尾樣式 */
 footer {
-  position: relative; /* 修改為相對定位，避免遮擋主內容 */
+  position: relative; /* 避免遮擋主內容 */
   background-color: #f0f0f0;
   width: 100%;
   text-align: center;
-  padding: 10px 0; /* 統一頁尾內邊距 */
+  padding: 10px 0;
   box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
 }
 
 footer p {
   font-size: small;
-  margin: 0; /* 移除多餘的上下邊距 */
+  margin: 0;
 }
 
 /* 上方列 */
@@ -238,5 +273,25 @@ footer p {
   position: absolute;
   right: 20px;
   top: 25px;
+}
+
+/* 表格樣式 */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  font-size: 16px;
+  text-align: left;
+}
+
+table th,
+table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+table th {
+  background-color: #f2f2f2;
+  text-align: center;
 }
 </style>
