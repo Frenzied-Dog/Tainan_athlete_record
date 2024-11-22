@@ -1,15 +1,19 @@
-from django.contrib.auth import authenticate
 # from django.contrib.auth.models import Group
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework_simplejwt.tokens import RefreshToken
 # from rest_framework.permissions import IsAuthenticated
 
 from rest_framework import generics
 from .models import UserProfile
 from .serializers import ProfileSerializer
 
+from django.contrib.auth import authenticate
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework_simplejwt.tokens import RefreshToken
+
 class LoginAPIView(APIView):
+    # def get(self, request):
+    #     return Response({"message": "Login page"})
+    
     def post(self, request, *args, **kwargs):
         # 從請求中獲取使用者名稱與密碼
         username = request.data.get("username")

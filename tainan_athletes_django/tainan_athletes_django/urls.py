@@ -24,9 +24,13 @@ from rest_framework_simplejwt.views import (
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', include('djoser.urls')),
-    path('api/', include('djoser.urls.authtoken')),
-    path('api/user-data/', include('user_data.urls')),  # 對應 user_data 的 API
+    path("accounts/", include("django.contrib.auth.urls")),
+    
+    
+    # path('api/', include('djoser.urls')),
+    # path('api/', include('djoser.urls.authtoken')),
+    
+    path('api/', include('user_data.urls')),  # 對應 user_data 的 API
     path('api/records/', include('record.urls')),      # 對應 record 的 API
 
     path('auth/jwt/create/', TokenObtainPairView.as_view(), name='token_obtain_pair'),

@@ -1,4 +1,4 @@
-from django.contrib.auth.models import User, Group
+from django.contrib.auth.models import User
 from django.db import models
 
 class UserProfile(models.Model):
@@ -41,7 +41,7 @@ class LinkInformation(models.Model):
     start_date = models.DateField()
     
     def __str__(self):
-        return f'{self.link_A} <-> {self.link_B} at {self.start_date}'
+        return f'{self.link_A.name} <-> {self.link_B.name} at {self.start_date.isoformat()}'
     
     class Meta:
         db_table = 'tb_link_information'
