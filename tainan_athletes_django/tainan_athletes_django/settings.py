@@ -122,7 +122,7 @@ USE_I18N = True
 USE_TZ = True
 
 # TOKEN_EXPIRED_AFTER_SECONDS = 60 * 60  # 1 hour
-TOKEN_EXPIRED_AFTER_SECONDS = 60 * 5  # foe debug 5 minutes
+TOKEN_EXPIRED_AFTER_SECONDS = 60 * 60 * 24 # for debug
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
@@ -138,6 +138,7 @@ REST_FRAMEWORK = {
    'DEFAULT_AUTHENTICATION_CLASSES': (
     #    'rest_framework.authentication.TokenAuthentication',
         'user_data.authentication.ExpiringTokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
    ),
    'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticated',

@@ -1,12 +1,8 @@
 from rest_framework import generics
 from rest_framework import viewsets
-from .models import DailyTrainRecord, RaceRecord, HurtRecord, BasicInfo, PhysicalTest
+from .models import RaceRecord, HurtRecord, BasicInfo, PhysicalTest
 from .serializers import *
 
-
-class DailyTrainRecordView(viewsets.ModelViewSet):
-    queryset = DailyTrainRecord.objects.all()
-    serializer_class = DailyTrainRecordSerializer
 
 
 

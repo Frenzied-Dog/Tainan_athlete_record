@@ -1,11 +1,7 @@
 from rest_framework import serializers
-from .models import DailyTrainRecord, RaceRecord, HurtRecord, BasicInfo, PhysicalTest
+from .models import RaceRecord, HurtRecord, BasicInfo, PhysicalTest
 
 
-class DailyTrainRecordSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = DailyTrainRecord
-        fields = '__all__'  # 包括所有字段
 
 
 class RaceRecordSerializer(serializers.ModelSerializer):

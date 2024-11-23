@@ -16,7 +16,6 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from rest_framework.authtoken import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -27,8 +26,7 @@ urlpatterns = [
     # path('api/', include('djoser.urls')),
     # path('api/', include('djoser.urls.authtoken')),
     
-    path('api/', include('user_data.urls')),  # 對應 user_data 的 API
-    path('api/records/', include('record.urls')),      # 對應 record 的 API
+    path('api/user-data', include('user_data.urls')),  # 對應 user_data 的 API
+    path('api/record', include('record.urls')),      # 對應 record 的 API
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-    path('api-token-auth/', views.obtain_auth_token, name='api-token-auth'),
 ]

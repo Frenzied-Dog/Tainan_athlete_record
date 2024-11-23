@@ -1,27 +1,6 @@
 
 from django.db import models
 from user_data.models import UserProfile
-
-class DailyTrainRecord(models.Model):
-    # Fields
-    athlete = models.ForeignKey(UserProfile, on_delete=models.CASCADE, related_name='daily_train_record', help_text='運動員')
-    date = models.DateField(help_text='訓練日期')
-    # 以田徑選手為例
-    distance = models.FloatField(help_text='跑步距離 (公里)')
-    time = models.TimeField(help_text='跑步時間')
-    description = models.TextField(max_length=255, help_text='訓練描述')
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-    
-    
-    # Metadata
-    class Meta:
-        ordering = ['-athlete', '-date']
-
-    # Methods
-    def __str__(self):
-        return f"{self.athlete.name} - {self.date}"
-    
     
 class RaceRecord(models.Model):
     """A typical class defining a model, derived from the Model class."""
@@ -29,8 +8,10 @@ class RaceRecord(models.Model):
     # Fields
     athlete = models.ForeignKey(UserProfile, on_delete=models.CASCADE, related_name='race_record', help_text='運動員')
     date = models.DateField(help_text='比賽日期')
-    race_name = models.CharField(max_length=10, help_text='比賽名稱')
-    description = models.TextField(max_length=255, help_text='比賽描述')
+    race_name = models.CharField(max_length=30, help_text='比賽名稱 (30字以內)')
+    description = models.TextField(max_length=300, help_text='比賽描述 (300字以內)')
+    proof = models.ImageField(upload_to='uploads/proof/', blank=True, null=True)
+    
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     
@@ -86,7 +67,7 @@ class BasicInfo(models.Model):
 
     # Methods
     def __str__(self):
-        return f"{self.athlete.name} - {self.age} (建於: {self.created_at}, 更新: {self.updated_at})"
+        return f"{self.athlete.name} - {self.age} ({self.test_date})"
 
 
 class PhysicalTest(models.Model):
