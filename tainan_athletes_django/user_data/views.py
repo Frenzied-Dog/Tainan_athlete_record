@@ -66,8 +66,7 @@ def signout(request):
     
     return Response({
         'user': user.username, 
-        'expires_in': expires_in(token),
-        'token': token.key
+        'logout': True
     }, status=HTTP_200_OK)
 
 
