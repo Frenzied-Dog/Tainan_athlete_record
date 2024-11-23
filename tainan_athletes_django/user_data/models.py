@@ -3,7 +3,7 @@ from django.db import models
 
 class UserProfile(models.Model):
     # Fields
-    user = models.OneToOneField(User, on_delete=models.CASCADE, help_text='使用者')
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile', help_text='使用者', primary_key=True)
     gender = models.CharField(choices=[('M', '男'), ('F', '女'), ('O', '其他')], max_length=1, default='M')
     name = models.CharField(max_length=10, help_text='姓名', null=True)
     # identity = models.CharField(choices=[('Ath', '運動員'), ('Coach', '教練')], max_length=5, default='Ath')

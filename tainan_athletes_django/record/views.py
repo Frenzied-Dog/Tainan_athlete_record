@@ -1,33 +1,20 @@
 from rest_framework import generics
+from rest_framework import viewsets
 from .models import DailyTrainRecord, RaceRecord, HurtRecord
 from .serializers import DailyTrainRecordSerializer, RaceRecordSerializer, HurtRecordSerializer
 
 
-class DailyTrainRecordListCreateView(generics.ListCreateAPIView):
+class DailyTrainRecordView(viewsets.ModelViewSet):
     queryset = DailyTrainRecord.objects.all()
     serializer_class = DailyTrainRecordSerializer
 
 
-class DailyTrainRecordDetailView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = DailyTrainRecord.objects.all()
-    serializer_class = DailyTrainRecordSerializer
 
-
-class RaceRecordListCreateView(generics.ListCreateAPIView):
+class RaceRecordView(viewsets.ModelViewSet):
     queryset = RaceRecord.objects.all()
     serializer_class = RaceRecordSerializer
 
 
-class RaceRecordDetailView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = RaceRecord.objects.all()
-    serializer_class = RaceRecordSerializer
-
-
-class HurtRecordListCreateView(generics.ListCreateAPIView):
-    queryset = HurtRecord.objects.all()
-    serializer_class = HurtRecordSerializer
-
-
-class HurtRecordDetailView(generics.RetrieveUpdateDestroyAPIView):
+class HurtRecordView(viewsets.ModelViewSet):
     queryset = HurtRecord.objects.all()
     serializer_class = HurtRecordSerializer

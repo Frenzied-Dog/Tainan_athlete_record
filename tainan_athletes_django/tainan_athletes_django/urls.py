@@ -16,15 +16,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from rest_framework_simplejwt.views import (
-    TokenObtainPairView,
-    TokenRefreshView,
-    TokenVerifyView,
-)
+from rest_framework.authtoken import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path("accounts/", include("django.contrib.auth.urls")),
+    # path("accounts/", include("django.contrib.auth.urls")),
+    
     
     
     # path('api/', include('djoser.urls')),
@@ -32,8 +29,6 @@ urlpatterns = [
     
     path('api/', include('user_data.urls')),  # 對應 user_data 的 API
     path('api/records/', include('record.urls')),      # 對應 record 的 API
-
-    path('auth/jwt/create/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
-    path('auth/jwt/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
-    path('auth/jwt/verify/', TokenVerifyView.as_view(), name='token_verify'),
+    path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    path('api-token-auth/', views.obtain_auth_token, name='api-token-auth'),
 ]

@@ -1,47 +1,68 @@
 # from django.contrib.auth.models import Group
 # from rest_framework.permissions import IsAuthenticated
-
-from rest_framework import generics
 from .models import UserProfile
 from .serializers import ProfileSerializer
 
 from django.contrib.auth import authenticate
 from rest_framework.views import APIView
+from rest_framework import viewsets
 from rest_framework.response import Response
-from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework.permissions import IsAuthenticated, AllowAny
 
-class LoginAPIView(APIView):
-    # def get(self, request):
-    #     return Response({"message": "Login page"})
+from rest_framework.authtoken.models import Token
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.status import (
+    HTTP_400_BAD_REQUEST,
+    HTTP_404_NOT_FOUND,
+    HTTP_200_OK,
+)
+from rest_framework.response import Response
+
+from .serializers import ProfileSerializer
+from .authentication import token_expire_handler, expires_in
+
+@api_view(["POST"])
+@permission_classes((AllowAny,))  # here we specify permission by default we set IsAuthenticated
+def signin(request):
+    username = request.data.get("username")
+    password = request.data.get("password")
+
+    user = authenticate(
+            username = username,
+            password = password 
+        )
     
-    def post(self, request, *args, **kwargs):
-        # 從請求中獲取使用者名稱與密碼
-        username = request.data.get("username")
-        password = request.data.get("password")
-
-        # 驗證用戶
-        user = authenticate(username=username, password=password)
+    
+    if not user:
+        return Response({'detail': 'Invalid Credentials or activate account'}, status=HTTP_404_NOT_FOUND)
         
-        if user:
-            # 生成 JWT Tokens
-            refresh = RefreshToken.for_user(user)
-            # 獲取用戶所屬的 Group
-            groups = [group.name for group in user.groups.all()]
+    #TOKEN STUFF
+    token, _ = Token.objects.get_or_create(user = user)
+    
+    #token_expire_handler will check, if the token is expired it will generate new one
+    is_expired, token = token_expire_handler(token)     # The implementation will be described further
 
-            return Response({
-                "refresh": str(refresh),
-                "access": str(refresh.access_token),
-                "groups": groups,  # 返回用戶所屬群組
-            })
-        else:
-            return Response({"error": "Invalid credentials"}, status=401)
+    return Response({
+        'user': user.username, 
+        'expires_in': expires_in(token),
+        'token': token.key
+    }, status=HTTP_200_OK)
 
 
-class ProfileListCreateView(generics.ListCreateAPIView):
+class UserGroupAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+    def get(self, request, *args, **kwargs):
+        user = request.user
+        groups = [group.name for group in user.groups.all()]  # 獲取用戶所屬群組
+
+        return Response({
+            "username": user.username,
+            "email": user.email,
+            "groups": groups,
+        })
+
+
+class ProfileView(viewsets.ModelViewSet):
     queryset = UserProfile.objects.all()
     serializer_class = ProfileSerializer
 
-
-class ProfileDetailView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = UserProfile.objects.all()
-    serializer_class = ProfileSerializer

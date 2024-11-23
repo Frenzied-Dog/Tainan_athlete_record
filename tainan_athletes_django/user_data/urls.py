@@ -1,9 +1,12 @@
 from django.urls import path, include
-from .views import LoginAPIView
-from .views import ProfileListCreateView, ProfileDetailView
+from .views import ProfileView, UserGroupAPIView, signin
+from rest_framework.routers import DefaultRouter
+
+router = DefaultRouter()
+router.register(r'profile', ProfileView, basename='profile')
 
 urlpatterns = [
-	path("auth/login/", LoginAPIView.as_view(), name="login"),
-    path('profile/', ProfileListCreateView.as_view(), name='profile-list-create'),
-    path('profile/<int:pk>/', ProfileDetailView.as_view(), name='profile-detail'),
+    path("info/", UserGroupAPIView.as_view(), name="get-users-group"),
+	path("auth/login/", signin, name="signin"),
+    path('', include(router.urls), name='profile-list')
 ]
