@@ -38,10 +38,32 @@ def signin(request):
         
     #TOKEN STUFF
     token, _ = Token.objects.get_or_create(user = user)
-    
-    #token_expire_handler will check, if the token is expired it will generate new one
-    is_expired, token = token_expire_handler(token)     # The implementation will be described further
 
+    #token_expire_handler will check, if the token is expired it will generate new one
+    # TODO Future: 提示有已登入的token
+    # _, token = token_expire_handler(token)
+    
+    # always delete the old token
+    token.delete()
+    token = Token.objects.create(user = token.user)
+    
+    return Response({
+        'user': user.username, 
+        'expires_in': expires_in(token),
+        'token': token.key
+    }, status=HTTP_200_OK)
+
+
+@api_view(["GET"])
+@permission_classes((IsAuthenticated,))  # here we specify permission by default we set IsAuthenticated
+def signout(request):
+    user = request.user
+    
+    token, _ = Token.objects.get_or_create(user = user)
+    
+    token.delete()
+    token = Token.objects.create(user = token.user)    
+    
     return Response({
         'user': user.username, 
         'expires_in': expires_in(token),
