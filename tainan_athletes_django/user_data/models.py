@@ -41,7 +41,7 @@ class LinkInformation(models.Model):
     start_date = models.DateField()
     
     def __str__(self):
-        return f'{self.link_A.name} <-> {self.link_B.name} at {self.start_date.isoformat()}'
+        return f'{self.link_A.name} <-> {self.link_B.name} at {self.start_date}'
     
     class Meta:
         db_table = 'tb_link_information'
