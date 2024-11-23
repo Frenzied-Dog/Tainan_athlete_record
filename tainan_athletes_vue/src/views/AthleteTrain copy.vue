@@ -52,14 +52,16 @@
         <h2 id="dataRecord">總覽-基本資料</h2>
         <table class="dataframe table table-striped">
           <thead>
-            <!-- 使用 v-for 動態生成欄位標題 -->
-            <th
-              v-for="field in fields"
-              :key="field"
-              class="title-button"
-              @click="changeField(field)">
-              {{ field }}
-            </th>
+            <tr style="text-align: right;" class="title-tr">
+              <th class="title-button">體重 (kg)</th>
+              <th class="title-button">BMI</th>
+              <th class="title-button">體脂率 (%)</th>
+              <th class="title-button">胸圍 (cm)</th>
+              <th class="title-button">腰圍 (cm)</th>
+              <th class="title-button">臀圍 (cm)</th>
+              <th class="title-button">肌肉量 (kg)</th>
+              <th class="title-button">基礎代謝率 (kcal)</th>
+            </tr>
           </thead>
           <!-- <tbody> -->
             <!-- </tbody> -->
@@ -73,10 +75,8 @@
             </tr>
           </thead> -->
         </table>
-        <LineChart
-          :api-url="'http://127.0.0.1:8000/user_data/api/data/'"
-          :data-key="selectedField"
-        />
+        <LineChart :api-url="'http://127.0.0.1:8000/user_data/api/data/'" />
+        
         <h2 id="dataAnalyze">數據分析</h2>
         <table class="dataframe table table-striped">
           <thead>
@@ -457,29 +457,9 @@ export default {
       alert('您已登出');
       this.$router.push('/login'); // Vue Router 的導航方法
     },
-    changeField(field) {
-    this.selectedField = field; // 更新選中的欄位
-  },
   },
   components: { // add for chart 
     LineChart,
-  },
-  data() {
-    return {
-      // 可選欄位
-      fields: [
-        '體重 (kg)',
-        'BMI',
-        '體脂率 (%)',
-        '胸圍 (cm)',
-        '腰圍 (cm)',
-        '臀圍 (cm)',
-        '肌肉量 (kg)',
-        '基礎代謝率 (kcal)',
-      ],
-      // 預設選擇的欄位
-      selectedField: '體重 (kg)',
-    };
   },
 };
 </script>
