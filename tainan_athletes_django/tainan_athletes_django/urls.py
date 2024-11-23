@@ -28,6 +28,8 @@ urlpatterns = [
     path('api/', include('djoser.urls.authtoken')),
     path('api/', include('user_data.urls')),
 
+    path('user_data/', include('user_data.urls')),  # 引入 user_data 的路由
+
     path('auth/jwt/create/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('auth/jwt/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('auth/jwt/verify/', TokenVerifyView.as_view(), name='token_verify'),

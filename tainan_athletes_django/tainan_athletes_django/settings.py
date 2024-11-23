@@ -45,7 +45,7 @@ INSTALLED_APPS = [
     'djoser',
     
     'record',
-    'user_data'
+    'user_data',
 ]
 
 MIDDLEWARE = [
@@ -57,6 +57,10 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+]
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:8080",  # Vue 項目地址
 ]
 
 ROOT_URLCONF = 'tainan_athletes_django.urls'
