@@ -22,10 +22,42 @@
           <li>
             <span class="menu-title"><router-link to="/coach-athlete">>> 運動員資料</router-link></span>
             <ul class="submenu">
-              <li><a href="/coach-a1">> 王小明</a></li>
-              <li><a href="#athlete2">> 李曉華</a></li>
+              <!-- <li><a href="#athlete1">> 王曉明</a></li>
+              <li><a href="#athlete2">> 李曉華</a></li> -->
             </ul>
           </li>
+        </ul>
+        <!-- 運動員側邊欄 -->
+        <div class="athlete-info">
+          <img class="user-avatar" src="@/assets/user-avatar.png" alt="User Avatar" />
+          <p>王小明</p>
+        </div>
+        <ul>
+          <li>
+            <span class="menu-title">>> 使用者基本資料</span>
+            <ul class="submenu">
+              <li><a href="#basicData">> 基本資料</a></li>
+              <li><a href="#coachData">> 教練資料</a></li>
+            </ul>
+          </li>
+          <li>
+            <span class="menu-title">>> 運動訓練數據紀錄</span>
+            <ul class="submenu">
+              <!-- <li><a href="#dataRecord">> 總覽</a></li>
+              <li><a href="#dataAnalyze">> 數據分析</a></li> -->
+            </ul>
+          </li>
+          <li>
+            <span class="menu-title">>> 競賽紀錄</span>
+            <ul class="submenu">
+              <!-- <li><a href="#">> 總覽</a></li>
+              <li><a href="#">> 數據紀錄</a></li>
+              <li><a href="#">> 特殊紀錄</a></li> -->
+            </ul>
+          </li>
+          <li><span class="menu-title">>> 健康紀錄</span></li>
+          <li><span class="menu-title">>> 營養紀錄</span></li>
+          <li><span class="menu-title">>> 受傷紀錄</span></li>
         </ul>
       </nav>
     </aside>
@@ -33,45 +65,12 @@
     <div class="main-div">
       <!-- 上方列 -->
       <div class="upsidebar">
-        <h1>運動員資料</h1>
+        <h1>運動員基本資料</h1>
         <button type="button" class="logout" @click="logout">登出</button> <!-- 觸發 js -->
       </div>
       <!-- 主頁面 -->
       <main class="main-content">
-        <!-- 運動員資料卡片 1 -->
-        <div class="profile-section">
-          <div class="profile-card" @click="changePage1">
-            <div class="profile-photo">
-              <img src="@/assets/user-avatar.png" alt="運動員照片" />
-            </div>
-            <div class="profile-details">
-              <p><strong>姓名：</strong>王小明</p>
-              <p><strong>身分證字號：</strong>A123456789</p>
-              <p><strong>性別：</strong>男</p>
-              <p><strong>出生日期：</strong>1990/01/01</p>
-              <p><strong>聯絡電話：</strong>0912-345-678</p>
-              <p><strong>電子郵件：</strong>example@mail.com</p>
-              <p><strong>地址：</strong>台南市中西區健康路一段100號</p>
-            </div>
-          </div>
-        </div>
-        <!-- 運動員資料卡片 2 -->
-        <div class="profile-section">
-          <div class="profile-card" @click="changePage2">
-            <div class="profile-photo">
-              <img src="@/assets/user2-avatar.png" alt="運動員照片" />
-            </div>
-            <div class="profile-details">
-              <p><strong>姓名：</strong>李曉華</p>
-              <p><strong>身分證字號：</strong>B987654321</p>
-              <p><strong>性別：</strong>男</p>
-              <p><strong>出生日期：</strong>1992/03/15</p>
-              <p><strong>聯絡電話：</strong>0987-654-321</p>
-              <p><strong>電子郵件：</strong>sample123@mail.com</p>
-              <p><strong>地址：</strong>高雄市苓雅區中山路200號</p>
-            </div>
-          </div>
-        </div>
+
       </main>
       <!-- 頁尾 -->
       <footer>
@@ -88,12 +87,6 @@ export default {
     logout() {
       alert('您已登出');
       this.$router.push('/login'); // Vue Router 的導航方法
-    },
-    changePage1() {
-      this.$router.push('/coach-a1');
-    },
-    changePage2() {
-      this.$router.push('/coach-a2');
     },
   },
 };
@@ -148,6 +141,7 @@ nav {
 .user-info {
   margin-bottom: 20px;
   text-align: center;
+  /* flex-direction: row; */
 }
 
 .user-avatar {
@@ -161,6 +155,25 @@ nav {
   font-size: 16px;
   margin: 0;
 }
+
+.athlete-info {
+  margin-bottom: 20px;
+  margin-top: 10px;
+  text-align: center;
+}
+
+.athlete-info .user-avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin-bottom: 10;
+}
+
+.athlete-info p {
+  font-size: 14px;
+  margin: 0;
+}
+
 
 /* 列表樣式 */
 ul {
@@ -270,11 +283,6 @@ a.router-link-exact-active {
 
 .profile-details p strong {
   font-weight: bold;
-}
-
-.profile-card:hover {
-  cursor: pointer;
-  background-color: #f0f0f0;
 }
 
 /* 頁尾樣式 */

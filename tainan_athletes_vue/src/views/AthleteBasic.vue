@@ -46,6 +46,7 @@
       <div class="upsidebar">
         <h1>基本資料</h1>
         <button type="button" class="logout" @click="logout">登出</button> <!-- 觸發 js -->
+        <button type="button" class="edit" @click="edit">編輯</button> <!-- 觸發 js -->
       </div>
       <!-- 主頁面 -->
       <main class="main-content">
@@ -311,6 +312,12 @@ footer p {
   position: relative;
   top: -10px;
   text-align: center;
+}
+
+.edit {
+  position: absolute;
+  right: 65px;
+  top: 25px;
 }
 
 .logout {

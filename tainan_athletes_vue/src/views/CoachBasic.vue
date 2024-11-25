@@ -22,8 +22,8 @@
           <li>
             <span class="menu-title"><router-link to="/coach-athlete">>> 運動員資料</router-link></span>
             <ul class="submenu">
-              <li><a href="#athlete1">> 王小明</a></li>
-              <li><a href="#athlete2">> 李曉華</a></li>
+              <!-- <li><a href="#athlete1">> 王小明</a></li>
+              <li><a href="#athlete2">> 李曉華</a></li> -->
             </ul>
           </li>
         </ul>
