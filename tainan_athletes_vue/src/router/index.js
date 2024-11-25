@@ -3,6 +3,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import LogIn from "../views/LogIn.vue";
 import AthleteBasic from "../views/AthleteBasic.vue";
 import AthleteTrain from "../views/AthleteTrain.vue";
+import AthleteCompetition from "../views/AthleteCompetition.vue";
 import CoachBasic from "../views/CoachBasic.vue";
 import CoachAthlete from "../views/CoachAthlete.vue";
 import CoachA1 from "../views/CoachA1.vue";
@@ -11,6 +12,7 @@ const routes = [
     { path: "/login", name: "Login", component: LogIn },
     { path: "/athlete-basic", name: "AthleteBasic", component: AthleteBasic },
     { path: "/athlete-train", name: "AthleteTrain", component: AthleteTrain },
+    { path: "/athlete-competition", name: "AthleteCompetition", component: AthleteCompetition },
     { path: "/coach-basic", name: "CoachBasic", component: CoachBasic },
     { path: "/coach-athlete", name: "CoachAthlete", component: CoachAthlete },
     { path: "/coach-a1", name: "CoachA1", component: CoachA1 },

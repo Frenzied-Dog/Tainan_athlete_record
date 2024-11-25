@@ -15,22 +15,22 @@
           <li>
             <span class="menu-title"><router-link to="/athlete-basic">>> 使用者基本資料</router-link></span>
             <ul class="submenu">
-              <li><a href="#basicData">> 基本資料</a></li>
-              <li><a href="#coachData">> 教練資料</a></li>
+              <!-- <li><a href="#basicData">> 基本資料</a></li>
+              <li><a href="#coachData">> 教練資料</a></li> -->
             </ul>
           </li>
           <li>
             <span class="menu-title"><router-link to="/athlete-train">>> 運動訓練數據紀錄</router-link></span>
             <ul class="submenu">
-              <!-- <li><a href="#dataRecord">> 總覽</a></li>
+              <!-- <li><a href="#dataOverview">> 總覽</a></li>
               <li><a href="#dataAnalyze">> 數據分析</a></li> -->
             </ul>
           </li>
           <li>
             <span class="menu-title"><router-link to="/athlete-competition">>> 競賽紀錄</router-link></span>
             <ul class="submenu">
-              <!-- <li><a href="#">> 總覽</a></li>
-              <li><a href="#">> 數據紀錄</a></li>
+              <li><a href="#dataOverview">> 總覽</a></li>
+              <!-- <li><a href="#">> 數據紀錄</a></li>
               <li><a href="#">> 特殊紀錄</a></li> -->
             </ul>
           </li>
@@ -44,48 +44,54 @@
     <div class="main-div">
       <!-- 上方列 -->
       <div class="upsidebar">
-        <h1>基本資料</h1>
+        <h1>運動訓練數據紀錄</h1>
         <button type="button" class="logout" @click="logout">登出</button> <!-- 觸發 js -->
       </div>
       <!-- 主頁面 -->
       <main class="main-content">
-        <!-- 運動員資料卡片 -->
-        <div class="profile-section">
-          <h2 class="section-title" id="basicData">運動員資料</h2>
-          <div class="profile-card">
-            <div class="profile-photo">
-              <img src="@/assets/user-avatar.png" alt="運動員照片" />
-            </div>
-            <div class="profile-details">
-              <p><strong>姓名：</strong>王小明</p>
-              <p><strong>身分證字號：</strong>A123456789</p>
-              <p><strong>性別：</strong>男</p>
-              <p><strong>出生日期：</strong>1990/01/01</p>
-              <p><strong>聯絡電話：</strong>0912-345-678</p>
-              <p><strong>電子郵件：</strong>example@mail.com</p>
-              <p><strong>地址：</strong>台南市中西區健康路一段100號</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- 教練資料卡片 -->
-        <div class="profile-section">
-          <h2 class="section-title" id="coachData">教練資料</h2>
-          <div class="profile-card">
-            <div class="profile-photo">
-              <img src="@/assets/coach-avatar.png" alt="教練照片" />
-            </div>
-            <div class="profile-details">
-              <p><strong>姓名：</strong>李大華</p>
-              <p><strong>身分證字號：</strong>B987654321</p>
-              <p><strong>性別：</strong>男</p>
-              <p><strong>出生日期：</strong>1985/05/15</p>
-              <p><strong>聯絡電話：</strong>0987-654-321</p>
-              <p><strong>電子郵件：</strong>coach@mail.com</p>
-              <p><strong>地址：</strong>台北市大安區和平東路一段200號</p>
-            </div>
-          </div>
-        </div>
+        <!-- 總覽 -->
+        <!-- RaceRecord -->
+        <h2 id="dataOverview">總覽</h2>
+        <table class="overview-table">
+          <thead>
+            <tr>
+              <th class="th-title">比賽名稱</th>
+              <td>名稱</td>
+            </tr>
+            <tr>
+              <th class="th-title">比賽描述</th>
+              <td>描述</td>
+            </tr>
+            <tr>
+              <th class="th-title">獲得獎項</th>
+              <td>獎項</td>
+            </tr>
+            <tr>
+              <th class="th-title">備註</th>
+              <td>說明</td>
+            </tr>
+          </thead>
+        </table>
+        <table class="overview-table">
+          <thead>
+            <tr>
+              <th class="th-title">比賽名稱</th>
+              <td>名稱</td>
+            </tr>
+            <tr>
+              <th class="th-title">比賽描述</th>
+              <td>描述</td>
+            </tr>
+            <tr>
+              <th class="th-title">獲得獎項</th>
+              <td>獎項</td>
+            </tr>
+            <tr>
+              <th class="th-title">備註</th>
+              <td>說明</td>
+            </tr>
+          </thead>
+        </table>
       </main>
       <!-- 頁尾 -->
       <footer>
@@ -96,16 +102,20 @@
 </template>
 
 <script>
+import LineChart from '@/components/LineChart.vue'; // add for chart 
+
 export default {
-  name: "Sidebar",
+  name: "TrainingDataPage",
   methods: {
     logout() {
       alert('您已登出');
       this.$router.push('/login'); // Vue Router 的導航方法
     },
+    changeField(field) {
+    this.selectedField = field; // 更新選中的欄位
+    },
   },
 };
-
 </script>
 
 <style scoped>
@@ -129,7 +139,7 @@ export default {
 }
 
 nav {
-  overflow-y: auto; /* 修改為只垂直滾動 */
+  overflow-y: auto; /* 垂直滾動 */
 }
 
 /* Logo 區域樣式 */
@@ -235,7 +245,6 @@ a.router-link-exact-active {
   background-color: #ffffff;
   overflow-y: auto;
   padding: 20px;
-  padding-bottom: 50px; /* 確保底部有 50px 空白區域 */
   box-sizing: border-box;
 }
 
@@ -247,54 +256,19 @@ a.router-link-exact-active {
   position: relative;
 }
 
-/* 個人資料卡樣式 */
-.profile-card {
-  display: flex;
-  align-items: flex-start;
-  border: 1px solid #ddd;
-  border-radius: 10px;
-  padding: 20px;
-  background-color: #f9f9f9;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  margin-bottom: 20px; /* 卡片之間的間距 */
-}
-
-.profile-photo img {
-  width: 120px;
-  height: 120px;
-  border-radius: 50%;
-  margin-right: 20px; /* 圖片與文字之間的間距 */
-}
-
-.profile-details {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  text-align: left;
-}
-
-.profile-details p {
-  margin: 5px 0;
-  font-size: 16px;
-}
-
-.profile-details p strong {
-  font-weight: bold;
-}
-
 /* 頁尾樣式 */
 footer {
-  position: relative; /* 修改為相對定位，避免遮擋主內容 */
+  position: relative; /* 避免遮擋主內容 */
   background-color: #f0f0f0;
   width: 100%;
   text-align: center;
-  padding: 10px 0; /* 統一頁尾內邊距 */
+  padding: 10px 0;
   box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
 }
 
 footer p {
   font-size: small;
-  margin: 0; /* 移除多餘的上下邊距 */
+  margin: 0;
 }
 
 /* 上方列 */
@@ -317,5 +291,38 @@ footer p {
   position: absolute;
   right: 20px;
   top: 25px;
+}
+
+/* 表格樣式 */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  font-size: 16px;
+  text-align: left;
+}
+
+table th,
+table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+table th {
+  background-color: #f9f9f9;
+  text-align: center;
+}
+
+.title-button:hover {
+  cursor: pointer;
+  background-color: #f0f0f0;
+}
+
+.title-tr {
+  flex-wrap: wrap;
+}
+
+.th-title {
+  width: 20%;
 }
 </style>

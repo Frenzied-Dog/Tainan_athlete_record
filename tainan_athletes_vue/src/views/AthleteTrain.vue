@@ -15,23 +15,23 @@
           <li>
             <span class="menu-title"><router-link to="/athlete-basic">>> 使用者基本資料</router-link></span>
             <ul class="submenu">
-              <li><a href="#basicData">> 基本資料</a></li>
-              <li><a href="#coachData">> 教練資料</a></li>
+              <!-- <li><a href="#basicData">> 基本資料</a></li>
+              <li><a href="#coachData">> 教練資料</a></li> -->
             </ul>
           </li>
           <li>
             <span class="menu-title"><router-link to="/athlete-train">>> 運動訓練數據紀錄</router-link></span>
             <ul class="submenu">
-              <li><a href="#dataRecord">> 總覽</a></li>
+              <li><a href="#dataOverview">> 總覽</a></li>
               <li><a href="#dataAnalyze">> 數據分析</a></li>
             </ul>
           </li>
           <li>
             <span class="menu-title"><router-link to="/athlete-competition">>> 競賽紀錄</router-link></span>
             <ul class="submenu">
-              <li><a href="#">> 總覽</a></li>
+              <!-- <li><a href="#">> 總覽</a></li>
               <li><a href="#">> 數據紀錄</a></li>
-              <li><a href="#">> 特殊紀錄</a></li>
+              <li><a href="#">> 特殊紀錄</a></li> -->
             </ul>
           </li>
           <li><span class="menu-title"><router-link to="/athlete-health">>> 健康紀錄</router-link></span></li>
@@ -49,36 +49,98 @@
       </div>
       <!-- 主頁面 -->
       <main class="main-content">
-        <h2 id="dataRecord">總覽-基本資料</h2>
-        <table class="dataframe table table-striped">
+        <!-- 總覽 -->
+        <!-- BasicInfo -->
+        <h2 id="dataOverview">總覽-身體數值</h2>
+        <table class="overview-table">
           <thead>
-            <!-- 使用 v-for 動態生成欄位標題 -->
-            <th
-              v-for="field in fields"
-              :key="field"
-              class="title-button"
-              @click="changeField(field)">
-              {{ field }}
-            </th>
-          </thead>
-          <!-- <tbody> -->
-            <!-- </tbody> -->
-            
-            <!-- <thead>
-              <tr style="text-align: right;">
-                <th class="title-button">基本資料</th>
-              <th class="title-button">體能測試</th>
-              <th class="title-button">傷病紀錄</th>
-              <th class="title-button">營養紀錄</th>
+            <tr>
+              <th>年齡</th>
+              <th>身高</th>
+              <th>體重</th>
+              <th>BMI</th>
+              <th>肌肉量</th>
+              <th>體脂率</th>
+              <th>測試日期</th>
             </tr>
-          </thead> -->
+          </thead>
+          <tbody>
+            <tr>
+              <td>年齡</td>
+              <td>身高</td>
+              <td>體重</td>
+              <td>BMI</td>
+              <td>肌肉量</td>
+              <td>體脂率</td>
+              <td>測試日期</td>
+            </tr>
+            <tr>
+              <td>年齡</td>
+              <td>身高</td>
+              <td>體重</td>
+              <td>BMI</td>
+              <td>肌肉量</td>
+              <td>體脂率</td>
+              <td>測試日期</td>
+            </tr>
+          </tbody>
         </table>
-        <LineChart
-          :api-url="'http://127.0.0.1:8000/user_data/api/data/'"
-          :data-key="selectedField"
-        />
-        <h2 id="dataAnalyze">數據分析</h2>
-        <table class="dataframe table table-striped">
+        <!-- PhysicalTest -->
+        <h2>總覽-物理測試</h2>
+        <table class="overview-table">
+          <thead>
+            <tr>
+              <th>垂直跳 (cm)</th>
+              <th>敏捷性 (s)</th>
+              <th>握力</th>
+              <th>30M 衝刺</th>
+              <th>背肌力</th>
+              <th>有氧適能</th>
+              <th>測試日期</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>垂直跳 (cm)</td>
+              <td>敏捷性 (s)</td>
+              <td>握力</td>
+              <td>30M 衝刺</td>
+              <td>背肌力</td>
+              <td>有氧適能</td>
+              <td>測試日期</td>
+            </tr>
+            <tr>
+              <td>垂直跳 (cm)</td>
+              <td>敏捷性 (s)</td>
+              <td>握力</td>
+              <td>30M 衝刺</td>
+              <td>背肌力</td>
+              <td>有氧適能</td>
+              <td>測試日期</td>
+            </tr>
+          </tbody>
+        </table>
+        <br>
+        <!-- 數據分析 -->
+        <!-- BasicInfo -->
+        <h2 id="dataAnalyze">數據分析-身體數值</h2>
+        <table class="overview-table">
+          <thead>
+            <th v-for="field in fields" :key="field" class="title-button" @click="changeField(field)">{{ field }}</th>
+          </thead>
+        </table>
+        <LineChart :api-url="'http://127.0.0.1:8000/user_data/api/data/'" :data-key="selectedField" />
+        <!-- PhysicalTest -->
+        <h2>數據分析-物理測試</h2>
+        <table class="overview-table">
+          <thead>
+            <th v-for="field in fields" :key="field" class="title-button" @click="changeField(field)">{{ field }}</th>
+          </thead>
+        </table>
+        <LineChart :api-url="'http://127.0.0.1:8000/user_data/api/data/'" :data-key="selectedField" />
+
+        <!-- 詳細數據 -->
+        <!-- <table class="dataframe table table-striped">
           <thead>
             <tr style="text-align: right;">
               <th>紀錄日期</th>
@@ -435,9 +497,7 @@
               <td>1.1</td>
             </tr>
           </tbody>
-        </table>
-
-        <h2 id="">詳細數據</h2>
+        </table> -->
       </main>
       <!-- 頁尾 -->
       <footer>
@@ -468,14 +528,11 @@ export default {
     return {
       // 可選欄位
       fields: [
-        '體重 (kg)',
+        '身高',
+        '體重',
         'BMI',
-        '體脂率 (%)',
-        '胸圍 (cm)',
-        '腰圍 (cm)',
-        '臀圍 (cm)',
-        '肌肉量 (kg)',
-        '基礎代謝率 (kcal)',
+        '肌肉量',
+        '體脂率',
       ],
       // 預設選擇的欄位
       selectedField: '體重 (kg)',
