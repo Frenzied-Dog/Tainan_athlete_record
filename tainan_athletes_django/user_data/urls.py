@@ -9,5 +9,5 @@ urlpatterns = [
     path("info/", UserGroupAPIView.as_view(), name="get-users-group"),
 	path("auth/login/", signin, name="signin"),
     path("auth/logout/", signout, name="signout"),
-    path('/', include(router.urls), name='profile-list')
+    path('', include(router.urls), name='profile-list')
 ]

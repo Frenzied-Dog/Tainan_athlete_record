@@ -26,7 +26,7 @@ urlpatterns = [
     # path('api/', include('djoser.urls')),
     # path('api/', include('djoser.urls.authtoken')),
     
-    path('api/user-data', include('user_data.urls')),  # 對應 user_data 的 API
-    path('api/record', include('record.urls')),      # 對應 record 的 API
+    path('api/user-data/', include('user_data.urls')),  # 對應 user_data 的 API
+    path('api/record/', include('record.urls')),      # 對應 record 的 API
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 ]

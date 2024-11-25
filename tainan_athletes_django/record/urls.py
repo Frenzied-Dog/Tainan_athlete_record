@@ -16,5 +16,5 @@ router.register(r'BasicInfo', BasicInfoView, basename='basic-info-record')
 router.register(r'PhysicalTest', PhysicalTestView, basename='physical-record')
 
 urlpatterns = [
-    path('/', include(router.urls), name='record-list'),
+    path('', include(router.urls), name='record-list'),
 ]

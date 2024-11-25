@@ -18,6 +18,7 @@ class RaceRecord(models.Model):
     # Metadata
     class Meta:
         ordering = ['-athlete', '-date']
+        unique_together = ['athlete', 'date', 'race_name']
 
     # Methods
     def __str__(self):
@@ -30,7 +31,6 @@ class HurtRecord(models.Model):
 
     # Fields
     athlete = models.ForeignKey(UserProfile, on_delete=models.CASCADE, related_name='hurt_records', help_text='運動員')
-    date = models.DateField(help_text='受傷日期')
     injury_type = models.CharField(max_length=10, help_text='受傷部位')
     description = models.TextField(max_length=255, help_text='受傷描述')
     injure_date = models.DateField(help_text='受傷日期')
@@ -40,7 +40,8 @@ class HurtRecord(models.Model):
     
     # Metadata
     class Meta:
-        ordering = ['-athlete', 'date']
+        ordering = ['-athlete', 'injure_date']
+        unique_together = ['athlete', 'injury_type', 'injure_date']
 
     # Methods
     def __str__(self):
@@ -64,6 +65,7 @@ class BasicInfo(models.Model):
     # Metadata
     class Meta:
         ordering = ['-athlete']
+        unique_together = ['athlete', 'test_date']
 
     # Methods
     def __str__(self):
@@ -87,6 +89,7 @@ class PhysicalTest(models.Model):
     # Metadata
     class Meta:
         ordering = ['-athlete', 'test_date']
+        unique_together = ['athlete', 'test_date']
 
     # Methods
     def __str__(self):
