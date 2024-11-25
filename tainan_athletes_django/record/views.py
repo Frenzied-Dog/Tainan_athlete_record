@@ -26,7 +26,7 @@ class RaceRecordView(viewsets.ModelViewSet):
     
     def list(self, request, *args, **kwargs):
         queryset = self.filter_queryset(self.get_queryset())
-        if request.user.is_stuff:
+        if request.user.is_staff:
             pass
         elif request.user.profile.group.name == 'Coach':
             queryset = queryset.filter(athlete__in=request.user.profile.linking.all())            

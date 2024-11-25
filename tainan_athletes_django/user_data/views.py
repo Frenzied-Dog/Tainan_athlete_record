@@ -2,12 +2,11 @@
 # from rest_framework.permissions import IsAuthenticated
 from .models import UserProfile
 from .serializers import ProfileSerializer
-
 from django.contrib.auth import authenticate
 from rest_framework.views import APIView
 from rest_framework import viewsets
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated, AllowAny
+from rest_framework.permissions import AllowAny
 
 from rest_framework.authtoken.models import Token
 from rest_framework.decorators import api_view, permission_classes
@@ -32,7 +31,6 @@ def signin(request):
             password = password 
         )
     
-    
     if not user:
         return Response({'detail': 'Invalid Credentials or activate account'}, status=HTTP_404_NOT_FOUND)
         
@@ -55,7 +53,6 @@ def signin(request):
 
 
 @api_view(["GET"])
-@permission_classes((IsAuthenticated,))  # here we specify permission by default we set IsAuthenticated
 def signout(request):
     user = request.user
     
@@ -70,20 +67,22 @@ def signout(request):
     }, status=HTTP_200_OK)
 
 
-class UserGroupAPIView(APIView):
-    permission_classes = [IsAuthenticated]
-    def get(self, request, *args, **kwargs):
-        user = request.user
-        groups = [group.name for group in user.groups.all()]  # 獲取用戶所屬群組
+@api_view(["GET"])
+def getUserGroup(self, request, *args, **kwargs):
+    user = request.user
+    groups = [group.name for group in user.groups.all()]  # 獲取用戶所屬群組
 
-        return Response({
-            "username": user.username,
-            "email": user.email,
-            "groups": groups,
-        })
+    return Response({
+        "username": user.username,
+        "email": user.email,
+        "groups": groups,
+    })
 
 
 class ProfileView(viewsets.ModelViewSet):
     queryset = UserProfile.objects.all()
     serializer_class = ProfileSerializer
 
+    def list(self, request, *args, **kwargs):
+        if request.user.is_staff:
+            return super().list(request, *args, **kwargs)
