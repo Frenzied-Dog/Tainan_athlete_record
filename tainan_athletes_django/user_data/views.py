@@ -12,6 +12,7 @@ from rest_framework.authtoken.models import Token
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.status import (
     HTTP_400_BAD_REQUEST,
+    HTTP_403_FORBIDDEN,
     HTTP_404_NOT_FOUND,
     HTTP_200_OK,
 )
@@ -83,6 +84,62 @@ class ProfileView(viewsets.ModelViewSet):
     queryset = UserProfile.objects.all()
     serializer_class = ProfileSerializer
 
+    def create(self, request, *args, **kwargs):        
+        usr = request.user
+        
+        if usr.is_staff:
+            return super().create(request, *args, **kwargs)
+        else:
+            return Response({'error': 'You are not allowed to create profile.'}, status=HTTP_403_FORBIDDEN)
+
+
     def list(self, request, *args, **kwargs):
-        if request.user.is_staff:
+        usr = request.user
+        
+        if usr.is_staff:
             return super().list(request, *args, **kwargs)
+        else:
+            queryset = self.filter_queryset(self.get_queryset())
+            queryset = queryset.filter(user__in=usr.profile.linking.all())
+            
+            serializer = self.get_serializer(queryset, many=True)
+            return Response(serializer.data)
+    
+    
+    def retrieve(self, request, *args, **kwargs):
+        usr = request.user
+        
+        if usr.is_staff:
+            return super().retrieve(request, *args, **kwargs)
+        else:
+            #check if is retrieve own or linking profile
+            instance = self.get_object()
+            
+            if instance in usr.profile.linking.all() or instance.user == usr:
+                serializer = self.get_serializer(instance)
+                return Response(serializer.data)
+            else:
+                return Response({'error': 'You are not allowed to retrieve this profile.'}, status=HTTP_403_FORBIDDEN)
+    
+    
+    def update(self, request, *args, **kwargs):
+        usr = request.user
+        
+        if usr.is_staff:
+            return super().update(request, *args, **kwargs)
+        else:
+            instance = self.get_object()
+            
+            if instance.user == usr or (usr.profile.group.name == 'Coach' and instance in usr.profile.linking.all()):
+                return super().update(request, *args, **kwargs)
+            else:
+                return Response({'error': 'You are not allowed to update this profile.'}, status=HTTP_403_FORBIDDEN)
+    
+    
+    def destroy(self, request, *args, **kwargs):
+        usr = request.user
+        
+        if usr.is_staff:
+            return super().destroy(request, *args, **kwargs)
+        else:
+            return Response({'error': 'You are not allowed to delete profile.'}, status=HTTP_403_FORBIDDEN)
