@@ -77,6 +77,14 @@ def getUserGroup(request):
     })
 
 
+@api_view(["GET"])
+def getSelfProfile(request):
+    user = request.user
+    
+    serializer = ProfileSerializer(user.profile)
+    return Response(serializer.data)
+    
+
 class ProfileView(viewsets.ModelViewSet):
     queryset = UserProfile.objects.all()
     serializer_class = ProfileSerializer
