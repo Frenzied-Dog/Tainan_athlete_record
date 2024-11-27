@@ -10,6 +10,7 @@ from rest_framework.authtoken.models import Token
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.status import (
     # HTTP_400_BAD_REQUEST,
+    HTTP_401_UNAUTHORIZED,
     HTTP_403_FORBIDDEN,
     HTTP_404_NOT_FOUND,
     HTTP_200_OK,
@@ -17,7 +18,7 @@ from rest_framework.status import (
 
 from .models import UserProfile
 from .serializers import ProfileSerializer
-from .authentication import expires_in, token_expire_handler
+from .authentication import expires_in, is_token_expired, token_expire_handler
 
 @api_view(["POST"])
 @permission_classes((AllowAny,))  # here we specify permission by default we set IsAuthenticated
@@ -48,6 +49,27 @@ def signin(request):
         'token': token.key,
     }, status=HTTP_200_OK)
 
+@api_view(["POST"])
+@permission_classes((AllowAny,))
+def verify(request):
+    key = request.data.get("token")
+    token = Token.objects.get(key = key) if Token.objects.filter(key = key).exists() else None
+    
+    user = token.user if token else None
+    if not user:
+        return Response({'detail': 'Invalid Token'}, status=HTTP_401_UNAUTHORIZED)
+    
+    is_expired, token = token_expire_handler(token)
+    if is_expired:
+        return Response({'detail': 'The Token is expired'}, status=HTTP_401_UNAUTHORIZED)
+
+    return Response({
+        'user': user.username, 
+        'is_valid': not is_expired,
+        'expires_in': expires_in(token),
+    }, status=HTTP_200_OK)
+
+
 
 @api_view(["GET"])
 def signout(request):
@@ -71,10 +93,10 @@ def getUserGroup(request):
     user = request.user
     
     return Response({
-        "username": user.username,
+        "user": user.username,
         "name": user.profile.name,
         "group": user.profile.group.name,
-    })
+    }, status=HTTP_200_OK)
 
 
 @api_view(["GET"])

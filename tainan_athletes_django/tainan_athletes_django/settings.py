@@ -125,8 +125,8 @@ USE_I18N = True
 
 USE_TZ = True
 
-# TOKEN_EXPIRED_AFTER_SECONDS = 60 * 60  # 1 hour
-TOKEN_EXPIRED_AFTER_SECONDS = 60 * 60 * 24 # for debug
+TOKEN_EXPIRED_AFTER_SECONDS = 60 * 60  # 1 hour
+# TOKEN_EXPIRED_AFTER_SECONDS = 60 * 1 # for debug
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/

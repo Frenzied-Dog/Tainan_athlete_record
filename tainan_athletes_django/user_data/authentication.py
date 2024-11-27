@@ -7,7 +7,6 @@ from django.utils import timezone
 from django.conf import settings
 
 
-
 #this return left time
 def expires_in(token):
     time_elapsed = timezone.now() - token.created
@@ -29,8 +28,6 @@ def token_expire_handler(token):
     return is_expired, token
 
 
-#________________________________________________
-#DEFAULT_AUTHENTICATION_CLASSES
 class ExpiringTokenAuthentication(TokenAuthentication):
     """
     If token is expired then it will be removed

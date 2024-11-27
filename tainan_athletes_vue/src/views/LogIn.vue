@@ -38,17 +38,17 @@ export default {
 				});
 
 				// 從返回數據中獲取 Token 和 Group
-				const { access, refresh, groups } = response.data;
+				const { group, token } = response.data;
 
 				// 儲存 Token 到 localStorage
-				localStorage.setItem("accessToken", access);
-				localStorage.setItem("refreshToken", refresh);
-				localStorage.setItem("userGroups", JSON.stringify(groups)); // 儲存 Group 信息
+				localStorage.setItem("Token", token);
+				axios.defaults.headers.common['Authorization'] = `Token ${token}`;
+
 
 				// 根據 Group 導向對應的 Dashboard
-				if (groups.includes("Coach")) {
+				if (group === "Coach") {
 					this.$router.push("/coach-basic");
-				} else if (groups.includes("Athlete")) {
+				} else if (group === "Athlete") {
 					this.$router.push("/athlete-basic");
 					// this.$router.push("/athlete-train"); // add this
 				} else {
@@ -56,11 +56,11 @@ export default {
 				}
 			} catch (error) {
 				// 登入失敗時的提示
-				if (error.response && error.response.status === 401) {
+				if (error.response && error.response.status === 404) {
 					console.log(error.response);
 					alert("登入失敗，使用者名稱或密碼錯誤！");
 				} else {
-					console.log(error.response);
+					console.log(error);
 					alert("登入時發生錯誤，請稍後再試。");
 				}
 			}

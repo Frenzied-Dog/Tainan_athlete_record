@@ -26,22 +26,21 @@ const router = createRouter({
 
 // 導航守衛
 router.beforeEach(async (to, from, next) => {
-    const token = localStorage.getItem("accessToken");
+    const token = localStorage.getItem("Token");
 
     if (token) {
         try {
             // 驗證 Token
-            await axios.post("http://localhost:8000/auth/jwt/verify/", { token });
-
+            const responce = await axios.get("http://localhost:8000/api/user-data/info/");
 
             // 有 Token 則跳過登入頁面，進入 Dashboard
             if (to.path === "/login") {
 
-                // 使用 Group 信息進行導向
-                const groups = JSON.parse(localStorage.getItem("userGroups"));
-                if (groups.includes("Coach")) {
+
+                const group = responce.data.group;
+                if (group.includes("Coach")) {
                     next("/coach-baisc");
-                } else if (groups.includes("Athlete")) {
+                } else if (group.includes("Athlete")) {
                     next("/athlete-basic");
                 } else {
                     alert("未知群組，請聯繫管理員！");
@@ -50,9 +49,9 @@ router.beforeEach(async (to, from, next) => {
 
             } else { next(); }
         } catch (error) {
-            // Token 無效或過期
-            localStorage.removeItem("accessToken");
-            localStorage.removeItem("refreshToken");
+            // 驗證失敗，清除 Token，導向登入頁面
+            alert("驗證失敗，請重新登入！");
+            localStorage.removeItem("Token");
             next("/login");
         }
     } else {

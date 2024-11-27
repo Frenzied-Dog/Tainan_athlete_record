@@ -97,10 +97,15 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   name: "Sidebar",
   methods: {
-    logout() {
+    async logout() {
+      localStorage.removeItem('Token'); // 移除 Token
+      await axios.get('http://localhost:8000/api/user-data/auth/logout/'); // 發送登出請求
+      axios.defaults.headers.common['Authorization'] = ''; // 清除 axios 的 Authorization Header
       alert('您已登出');
       this.$router.push('/login'); // Vue Router 的導航方法
     },
