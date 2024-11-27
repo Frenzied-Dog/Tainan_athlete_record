@@ -31,9 +31,14 @@ class UserProfile(models.Model):
         return ''
     
     def save(self, *args, **kwargs):
-        super().save()
+        if self.group.name == 'Admin':
+            self.user.is_staff = True
+            self.user.save()
+        
         self.user.groups.clear()
         self.group.user_set.add(self.user)
+        
+        super().save()
 
 
     # Methods

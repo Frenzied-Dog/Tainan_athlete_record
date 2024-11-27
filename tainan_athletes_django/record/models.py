@@ -46,7 +46,7 @@ class HurtRecord(models.Model):
     # Methods
     def __str__(self):
         """String for representing the Hurt object (in Admin site etc.)."""
-        return f"{self.athlete.name} - {self.type} ({self.date})"
+        return f"{self.athlete.name} - {self.injury_type} ({self.injure_date})"
     
     
 class BasicInfo(models.Model):
