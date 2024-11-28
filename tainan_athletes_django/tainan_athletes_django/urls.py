@@ -19,8 +19,8 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     
     path('api/user-data/', include('user_data.urls')),  # 對應 user_data 的 API
     path('api/record/', include('record.urls')),      # 對應 record 的 API
-    path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 ]

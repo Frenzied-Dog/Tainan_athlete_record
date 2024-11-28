@@ -42,7 +42,9 @@ class UserProfile(models.Model):
         self.group.user_set.add(self.user)
         
         # 刪除舊頭像/縮圖
-        old_avatar = UserProfile.objects.get(pk=self.pk).avatar
+        old_user = UserProfile.objects.get(pk=self.pk) if UserProfile.objects.filter(pk=self.pk).exists() else None
+        old_avatar = old_user.avatar if old_user else None
+        
         if old_avatar and old_avatar != self.avatar:
             if self.thumbnail:
                 thumbnail_path = self.thumbnail.path

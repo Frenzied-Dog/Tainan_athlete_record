@@ -28,7 +28,9 @@ class RaceRecord(models.Model):
 
     def save(self, *args, **kwargs):
         # 刪除舊證明/縮圖
-        old_proof = RaceRecord.objects.get(pk=self.pk).proof
+        old_record = RaceRecord.objects.get(pk=self.pk) if RaceRecord.objects.filter(pk=self.pk).exists() else None
+        
+        old_proof = old_record.proof if old_record else None
         if old_proof and old_proof != self.proof:
             if self.thumbnail:
                 thumbnail_path = self.thumbnail.path
