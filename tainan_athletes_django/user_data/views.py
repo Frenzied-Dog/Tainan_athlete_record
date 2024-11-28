@@ -69,8 +69,6 @@ def verify(request):
         'expires_in': expires_in(token),
     }, status=HTTP_200_OK)
 
-
-
 @api_view(["GET"])
 def signout(request):
     user = request.user
@@ -87,7 +85,6 @@ def signout(request):
         'logout': True
     }, status=HTTP_200_OK)
 
-
 @api_view(["GET"])
 def getUserGroup(request):
     user = request.user
@@ -97,7 +94,6 @@ def getUserGroup(request):
         "name": user.profile.name,
         "group": user.profile.group.name,
     }, status=HTTP_200_OK)
-
 
 @api_view(["GET"])
 def getSelfProfile(request):
@@ -112,7 +108,7 @@ class ProfileView(viewsets.ModelViewSet):
     serializer_class = ProfileSerializer
 
     # 只有管理員可以新增帳號
-    def create(self, request, *args, **kwargs):        
+    def create(self, request, *args, **kwargs):
         usr = request.user
         
         if usr.is_staff:

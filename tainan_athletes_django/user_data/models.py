@@ -24,7 +24,7 @@ class UserProfile(models.Model):
     avatar = models.ImageField(upload_to='assets/profilePic/', blank=True, null=True)
     thumbnail = models.ImageField(upload_to='assets/profilePic/thumbnail', blank=True, null=True)
     
-                                 
+
     # Metadata
     class Meta:
         ordering = ['name']

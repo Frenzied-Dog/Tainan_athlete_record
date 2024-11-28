@@ -7,8 +7,9 @@
         <h2>台南優秀運動員<br />健康管理系統</h2>
       </div>
       <div class="user-info">
-        <img class="user-avatar" src="@/assets/user-avatar.png" alt="User Avatar" />
-        <p>王小明</p>
+        <img v-if="!loading && profile.avatar" :src=getAvaUrl(profile.avatar) alt="運動員照片" class="user-avatar"/>
+        <img v-else src="@/assets/avatar-default.jpg" alt="未設定運動員照片" class="user-avatar"/>
+        <p v-if="!loading">{{ profile.name }}</p>
       </div>
       <nav>
         <ul>
@@ -22,16 +23,16 @@
           <li>
             <span class="menu-title"><router-link to="/athlete-train">>> 運動訓練數據紀錄</router-link></span>
             <ul class="submenu">
-              <!-- <li><a href="#dataRecord">> 總覽</a></li>
-              <li><a href="#dataAnalyze">> 數據分析</a></li> -->
+              <li><a href="#dataRecord">> 總覽</a></li>
+              <li><a href="#dataAnalyze">> 數據分析</a></li>
             </ul>
           </li>
           <li>
             <span class="menu-title"><router-link to="/athlete-competition">>> 競賽紀錄</router-link></span>
             <ul class="submenu">
-              <!-- <li><a href="#">> 總覽</a></li>
+              <li><a href="#">> 總覽</a></li>
               <li><a href="#">> 數據紀錄</a></li>
-              <li><a href="#">> 特殊紀錄</a></li> -->
+              <li><a href="#">> 特殊紀錄</a></li>
             </ul>
           </li>
           <li><span class="menu-title"><router-link to="/athlete-health">>> 健康紀錄</router-link></span></li>
@@ -45,26 +46,30 @@
       <!-- 上方列 -->
       <div class="upsidebar">
         <h1>基本資料</h1>
-        <button type="button" class="logout" @click="logout">登出</button> <!-- 觸發 js -->
-        <button type="button" class="edit" @click="edit">編輯</button> <!-- 觸發 js -->
+        <button type="button" class="logout" @click="logout">登出</button>
+        <button type="button" class="edit" @click="edit">編輯</button>
       </div>
       <!-- 主頁面 -->
       <main class="main-content">
         <!-- 運動員資料卡片 -->
-        <div class="profile-section">
+        <div v-if="!loading" class="profile-section">
           <h2 class="section-title" id="basicData">運動員資料</h2>
           <div class="profile-card">
             <div class="profile-photo">
-              <img src="@/assets/user-avatar.png" alt="運動員照片" />
+              <img v-if="profile.avatar" :src=getAvaUrl(profile.avatar) alt="運動員照片" /> <!-- 載入完且有設定 avatar -->
+              <img v-else src="@/assets/avatar-default.jpg" alt="未設定運動員照片" />
             </div>
             <div class="profile-details">
-              <p><strong>姓名：</strong>王小明</p>
-              <p><strong>身分證字號：</strong>A123456789</p>
-              <p><strong>性別：</strong>男</p>
-              <p><strong>出生日期：</strong>1990/01/01</p>
-              <p><strong>聯絡電話：</strong>0912-345-678</p>
-              <p><strong>電子郵件：</strong>example@mail.com</p>
-              <p><strong>地址：</strong>台南市中西區健康路一段100號</p>
+              <p><strong>姓名：</strong>{{ profile.name }}</p>
+              <p><strong>性別：</strong>{{ getGender(profile.gender) }}</p>
+              <p v-if="profile.birth"><strong>出生日期：</strong>{{ profile.birth }}</p>
+              <p v-else><strong>出生日期：</strong>尚未設定</p>
+              <p v-if="profile.phone"><strong>聯絡電話：</strong>{{ profile.phone }}</p>
+              <p v-else><strong>聯絡電話：</strong>尚未設定</p>
+              <p v-if="profile.email"><strong>電子郵件：</strong>{{ profile.email}}</p>
+              <p v-else><strong>電子郵件：</strong>尚未設定</p>
+              <p v-if="profile.address"><strong>地址：</strong>{{ profile.address }}</p>
+              <p v-else><strong>地址：</strong>尚未設定</p>
             </div>
           </div>
         </div>
@@ -72,18 +77,26 @@
         <!-- 教練資料卡片 -->
         <div class="profile-section">
           <h2 class="section-title" id="coachData">教練資料</h2>
-          <div class="profile-card">
-            <div class="profile-photo">
-              <img src="@/assets/coach-avatar.png" alt="教練照片" />
-            </div>
-            <div class="profile-details">
-              <p><strong>姓名：</strong>李大華</p>
-              <p><strong>身分證字號：</strong>B987654321</p>
-              <p><strong>性別：</strong>男</p>
-              <p><strong>出生日期：</strong>1985/05/15</p>
-              <p><strong>聯絡電話：</strong>0987-654-321</p>
-              <p><strong>電子郵件：</strong>coach@mail.com</p>
-              <p><strong>地址：</strong>台北市大安區和平東路一段200號</p>
+          <div v-if="!loading">
+            <div v-for="coach in coaches" :key="coach.user">
+              <div class="profile-card">
+                <div class="profile-photo">
+                  <img v-if="coach.avatar" :src="coach.avatar" alt="運動員照片" />
+                  <img v-else src="@/assets/avatar-default.jpg" alt="未設定運動員照片" />
+                </div>
+                <div class="profile-details">
+                  <p><strong>姓名：</strong>{{ coach.name }}</p>
+                  <p><strong>性別：</strong>{{ getGender(coach.gender) }}</p>
+                  <p v-if="profile.birth"><strong>出生日期：</strong>{{ coach.birth }}</p>
+                  <p v-else><strong>出生日期：</strong>尚未設定</p>
+                  <p v-if="profile.phone"><strong>聯絡電話：</strong>{{ coach.phone }}</p>
+                  <p v-else><strong>聯絡電話：</strong>尚未設定</p>
+                  <p v-if="profile.email"><strong>電子郵件：</strong>{{ coach.email}}</p>
+                  <p v-else><strong>電子郵件：</strong>尚未設定</p>
+                  <p v-if="profile.address"><strong>地址：</strong>{{ coach.address }}</p>
+                  <p v-else><strong>地址：</strong>尚未設定</p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -97,11 +110,49 @@
 </template>
 
 <script>
-import axios from 'axios';
+import axios from "axios";
 
 export default {
-  name: "Sidebar",
+  name: "AtheleBasic",
+  data() {
+    return {
+      profile: null,
+      loading: true,
+      coaches: null,
+    };
+  },
   methods: {
+    async fetchUserProfile() {
+      try {
+        const response = await axios.get('http://localhost:8000/api/user-data/self/', {
+          headers: {
+            Authorization: `Token ${localStorage.getItem('Token')}`, // 添加 Authorization Header
+          },
+        });
+
+        this.profile = response.data;
+        // this.loading = false;
+
+      } catch {
+        alert('獲取 Profile 發生問題');
+      }
+    },
+    async fetchCoachProfile() {
+      try {
+        // 發送 GET 請求到 ProfileView 的 list 方法
+        const response = await axios.get('http://localhost:8000/api/user-data/profile', {
+          headers: {
+            Authorization: `Token ${localStorage.getItem('Token')}`, // 添加 Authorization Header
+          },
+        });
+
+        this.coaches = response.data;
+        this.loading = false;
+
+      } catch (error) {
+        alert('獲取教練資料發生問題');
+      }
+    },
     async logout() {
       localStorage.removeItem('Token'); // 移除 Token
       await axios.get('http://localhost:8000/api/user-data/auth/logout/'); // 發送登出請求
@@ -109,6 +160,22 @@ export default {
       alert('您已登出');
       this.$router.push('/login'); // Vue Router 的導航方法
     },
+    getGender(genderCode) {
+        const genderMap = {
+          M: "男",
+          F: "女",
+          O: "其他",
+        };
+        return genderMap[genderCode];
+    },
+    getAvaUrl(avaCode) {
+      return "http://localhost:8000" + avaCode;
+    },
+  },
+  mounted() {
+    // 組件加載完成後請求資料
+    this.fetchUserProfile();
+    this.fetchCoachProfile();
   },
 };
 
