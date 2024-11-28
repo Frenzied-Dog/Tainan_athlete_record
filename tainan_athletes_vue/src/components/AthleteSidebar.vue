@@ -6,7 +6,7 @@
       <h2>台南優秀運動員<br />健康管理系統</h2>
     </div>
     <div class="user-info">
-      <img v-if="!loading && profile.avatar" :src="getAvaUrl(profile.avatar)" alt="運動員照片" class="user-avatar" />
+      <img v-if="!loading && profile.avatar" :src="profile.avatar" alt="運動員照片" class="user-avatar" />
       <img v-else src="@/assets/avatar-default.jpg" alt="未設定運動員照片" class="user-avatar" />
       <p v-if="!loading">{{ profile.name }}</p>
     </div>
@@ -22,7 +22,7 @@
         <li>
           <span class="menu-title"><router-link to="/athlete-train">>> 運動訓練數據紀錄</router-link></span>
           <ul class="submenu">
-            <li><a href="#dataRecord">> 總覽</a></li>
+            <li><a href="#dataOverview">> 總覽</a></li>
             <li><a href="#dataAnalyze">> 數據分析</a></li>
           </ul>
         </li>

@@ -1,52 +1,16 @@
 <template>
   <div class="app-layout">
     <!-- 側欄 -->
-    <aside class="sidebar">
-      <div class="logo">
-        <img src="@/assets/logo.png" alt="Logo" />
-        <h2>台南優秀運動員<br />健康管理系統</h2>
-      </div>
-      <div class="user-info">
-        <img class="user-avatar" src="@/assets/user-avatar.png" alt="User Avatar" />
-        <p>王小明</p>
-      </div>
-      <nav>
-        <ul>
-          <li>
-            <span class="menu-title"><router-link to="/athlete-basic">>> 使用者基本資料</router-link></span>
-            <ul class="submenu">
-              <!-- <li><a href="#basicData">> 基本資料</a></li>
-              <li><a href="#coachData">> 教練資料</a></li> -->
-            </ul>
-          </li>
-          <li>
-            <span class="menu-title"><router-link to="/athlete-train">>> 運動訓練數據紀錄</router-link></span>
-            <ul class="submenu">
-              <li><a href="#dataOverview">> 總覽</a></li>
-              <li><a href="#dataAnalyze">> 數據分析</a></li>
-            </ul>
-          </li>
-          <li>
-            <span class="menu-title"><router-link to="/athlete-competition">>> 競賽紀錄</router-link></span>
-            <ul class="submenu">
-              <!-- <li><a href="#">> 總覽</a></li>
-              <li><a href="#">> 數據紀錄</a></li>
-              <li><a href="#">> 特殊紀錄</a></li> -->
-            </ul>
-          </li>
-          <li><span class="menu-title"><router-link to="/athlete-health">>> 健康紀錄</router-link></span></li>
-          <li><span class="menu-title"><router-link to="/athlete-nutrition">>> 營養紀錄</router-link></span></li>
-          <li><span class="menu-title"><router-link to="/athlete-hurt">>> 受傷紀錄</router-link></span></li>
-        </ul>
-      </nav>
-    </aside>
+    <AthleteSidebar :profile="profile" :loading="loading" />
+    
     <!-- 主畫面 -->
     <div class="main-div">
       <!-- 上方列 -->
-      <div class="upsidebar">
-        <h1>運動訓練數據紀錄</h1>
-        <button type="button" class="logout" @click="logout">登出</button> <!-- 觸發 js -->
-      </div>
+      <Upsidebar
+        :title="'運動訓練數據紀錄'"
+        :profile="profile"
+        @edit="openEditModal"
+      />
       <!-- 主頁面 -->
       <main class="main-content">
         <!-- 總覽 -->
@@ -500,44 +464,107 @@
         </table> -->
       </main>
       <!-- 頁尾 -->
-      <footer>
-        <p>台南優秀運動員健康管理系統</p>
-      </footer>
+      <Footor />
     </div>
   </div>
 </template>
 
 <script>
 import LineChart from '@/components/LineChart.vue'; // add for chart 
+import AthleteSidebar from "@/components/AthleteSidebar.vue";
+// import ProfileCard from "@/components/ProfileCard.vue";
+import Footor from "@/components/Footor.vue";
+import Upsidebar from "@/components/Upsidebar.vue";
+import EditProfileModal from "@/components/EditProfileModal.vue";
+import axios from "axios";
 
 export default {
-  name: "TrainingDataPage",
-  methods: {
-    logout() {
-      alert('您已登出');
-      this.$router.push('/login'); // Vue Router 的導航方法
-    },
-    changeField(field) {
-    this.selectedField = field; // 更新選中的欄位
-  },
-  },
-  components: { // add for chart 
-    LineChart,
+  name: "AthleteTrain",
+  components: {
+    AthleteSidebar,
+    // ProfileCard,
+    Footor,
+    Upsidebar,
+    EditProfileModal,
   },
   data() {
     return {
-      // 可選欄位
-      fields: [
-        '身高',
-        '體重',
-        'BMI',
-        '肌肉量',
-        '體脂率',
-      ],
-      // 預設選擇的欄位
-      selectedField: '體重 (kg)',
+      profile: {},
+      loading: true,
+      coaches: null,
+      isModalVisible: false, // 控制彈窗顯示
     };
   },
+  methods: {
+    async fetchUserProfile() {
+      try {
+        const response = await axios.get('http://localhost:8000/api/user-data/self/', {
+          headers: {
+            Authorization: `Token ${localStorage.getItem('Token')}`, // 添加 Authorization Header
+          },
+        });
+
+        this.profile = response.data;
+        this.loading = false;
+
+      } catch {
+        alert('獲取 Profile 發生問題');
+      }
+    },
+    openEditModal() {
+      this.isModalVisible = true; // 顯示編輯彈窗
+    },
+    async handleEditProfile(updatedProfile) {
+      // 從 Cookie 中獲取 CSRF Token
+      const csrfToken = document.cookie
+        .split("; ")
+        .find((row) => row.startsWith("csrftoken"))
+        ?.split("=")[1];
+
+      // 發送 PATCH 請求到後端
+      try {
+        const response = await axios.patch(
+          "http://localhost:8000/api/user-data/profile/${updatedProfile.id}/",
+          updatedProfile, {
+            headers: {
+              Authorization: `Token ${localStorage.getItem("Token")}`,
+              "X-CSRFToken": csrfToken,
+          },
+        });
+        alert("資料更新成功");
+        this.profile = response.data; // 更新前端顯示的資料
+      } catch (error) {
+        console.error("資料更新失敗：", error);
+        alert("更新失敗，請稍後再試。");
+      }
+      this.isModalVisible = false; // 關閉彈窗
+    },
+    changeField(field) {
+      this.selectedField = field; // 更新選中的欄位
+    },
+  },
+  mounted() {
+    // 組件加載完成後請求資料
+    this.fetchUserProfile();
+    // this.fetchCoachProfile();
+  },
+  // components: { // add for chart 
+  //   LineChart,
+  // },
+  // data() {
+  //   return {
+  //     // 可選欄位
+  //     fields: [
+  //       '身高',
+  //       '體重',
+  //       'BMI',
+  //       '肌肉量',
+  //       '體脂率',
+  //     ],
+  //     // 預設選擇的欄位
+  //     selectedField: '體重 (kg)',
+  //   };
+  // },
 };
 </script>
 

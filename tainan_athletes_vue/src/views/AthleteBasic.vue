@@ -14,11 +14,6 @@
 
       <!-- 主頁面 -->
       <main class="main-content">
-        <!-- 運動員資料卡片 -->
-        <div v-if="!loading" class="profile-section">
-          <h2 class="section-title" id="basicData">運動員資料</h2>
-          <ProfileCard :profile="profile" />
-        </div>
         <!-- 編輯資料區域 -->
         <EditProfileModal
           v-if="isModalVisible"
@@ -27,6 +22,11 @@
           @confirm-edit="handleEditProfile"
           @close="isModalVisible = false"
         />
+        <!-- 運動員資料卡片 -->
+        <div v-if="!loading" class="profile-section">
+          <h2 class="section-title" id="basicData">運動員資料</h2>
+          <ProfileCard :profile="profile" />
+        </div>
         <!-- 教練資料卡片 -->
         <div class="profile-section">
           <h2 class="section-title" id="coachData">教練資料</h2>
@@ -127,20 +127,7 @@ export default {
       }
       this.isModalVisible = false; // 關閉彈窗
     },
-    // getGender(genderCode) {
-    //     const genderMap = {
-    //       M: "男",
-    //       F: "女",
-    //       O: "其他",
-    //     };
-    //     return genderMap[genderCode];
-    // },
-    // getAvaUrl(relativePath) {
-    //   const baseUrl = "http://localhost:8000"; // 替換為你的後端 URL
-    //   return `${baseUrl}${relativePath}`;
-    // },
   },
-
   mounted() {
     // 組件加載完成後請求資料
     this.fetchUserProfile();
