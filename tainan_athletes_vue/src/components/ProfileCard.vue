@@ -1,7 +1,7 @@
 <template>
   <div class="profile-card">
     <div class="profile-photo">
-      <img v-if="profile.avatar" :src="getAvaUrl(profile.avatar)" alt="照片" />
+      <img v-if="profile.avatar" :src="profile.avatar" alt="照片" />
       <img v-else src="@/assets/avatar-default.jpg" alt="未設定照片" />
     </div>
     <div class="profile-details">
@@ -32,10 +32,6 @@ export default {
         O: "其他",
       };
       return genderMap[genderCode];
-    },
-    getAvaUrl(relativePath) {
-      const baseUrl = "http://localhost:8000"; // 替換為你的後端 URL
-      return `${baseUrl}${relativePath}`;
     },
   },
 };

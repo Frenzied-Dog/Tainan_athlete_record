@@ -6,15 +6,10 @@
     <!-- 主畫面 -->
     <div class="main-div">
       <!-- 上方列 -->
-      <!-- <div class="upsidebar">
-        <h1>基本資料</h1>
-        <button type="button" class="logout" @click="logout">登出</button>
-        <button type="button" class="edit" @click="edit">編輯</button>
-      </div> -->
       <Upsidebar
         :title="'基本資料'"
         :profile="profile"
-        @edit="handleEditProfile"
+        @edit="openEditModal"
       />
 
       <!-- 主頁面 -->
@@ -24,6 +19,14 @@
           <h2 class="section-title" id="basicData">運動員資料</h2>
           <ProfileCard :profile="profile" />
         </div>
+        <!-- 編輯資料區域 -->
+        <EditProfileModal
+          v-if="isModalVisible"
+          :visible="isModalVisible"
+          :profile="profile"
+          @confirm-edit="handleEditProfile"
+          @close="isModalVisible = false"
+        />
         <!-- 教練資料卡片 -->
         <div class="profile-section">
           <h2 class="section-title" id="coachData">教練資料</h2>
@@ -44,6 +47,7 @@ import AthleteSidebar from "@/components/AthleteSidebar.vue";
 import ProfileCard from "@/components/ProfileCard.vue";
 import Footor from "@/components/Footor.vue";
 import Upsidebar from "@/components/Upsidebar.vue";
+import EditProfileModal from "@/components/EditProfileModal.vue";
 import axios from "axios";
 
 export default {
@@ -53,12 +57,14 @@ export default {
     ProfileCard,
     Footor,
     Upsidebar,
+    EditProfileModal,
   },
   data() {
     return {
       profile: {},
       loading: true,
       coaches: null,
+      isModalVisible: false, // 控制彈窗顯示
     };
   },
   methods: {
@@ -93,24 +99,33 @@ export default {
         alert('獲取教練資料發生問題');
       }
     },
-    async handleEditProfile(profileData) {
-      // 接收來自 UpSidebar 的 profile 資料，並執行後端更新邏輯
+    openEditModal() {
+      this.isModalVisible = true; // 顯示編輯彈窗
+    },
+    async handleEditProfile(updatedProfile) {
+      // 從 Cookie 中獲取 CSRF Token
+      const csrfToken = document.cookie
+        .split("; ")
+        .find((row) => row.startsWith("csrftoken"))
+        ?.split("=")[1];
+
+      // 發送 PATCH 請求到後端
       try {
-        const response = await axios.put(
-          "http://localhost:8000/api/user-data/self/",
-          profileData,
-          {
+        const response = await axios.patch(
+          "http://localhost:8000/api/user-data/profile/${updatedProfile.id}/",
+          updatedProfile, {
             headers: {
               Authorization: `Token ${localStorage.getItem("Token")}`,
-            },
-          }
-        );
+              "X-CSRFToken": csrfToken,
+          },
+        });
         alert("資料更新成功");
-        this.profile = response.data; // 更新資料顯示
+        this.profile = response.data; // 更新前端顯示的資料
       } catch (error) {
         console.error("資料更新失敗：", error);
         alert("更新失敗，請稍後再試。");
       }
+      this.isModalVisible = false; // 關閉彈窗
     },
     // getGender(genderCode) {
     //     const genderMap = {
@@ -125,13 +140,13 @@ export default {
     //   return `${baseUrl}${relativePath}`;
     // },
   },
+
   mounted() {
     // 組件加載完成後請求資料
     this.fetchUserProfile();
     this.fetchCoachProfile();
   },
 };
-
 </script>
 
 <style scoped>

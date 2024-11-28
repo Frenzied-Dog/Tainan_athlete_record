@@ -1,6 +1,9 @@
 # from django.contrib.auth.models import Group
 # from rest_framework.permissions import IsAuthenticated
 # from rest_framework.views import APIView
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
+
 from django.contrib.auth import authenticate
 from rest_framework import viewsets
 from rest_framework.response import Response
@@ -99,9 +102,8 @@ def getUserGroup(request):
 def getSelfProfile(request):
     user = request.user
     
-    serializer = ProfileSerializer(user.profile)
+    serializer = ProfileSerializer(user.profile, context={'request':request})
     return Response(serializer.data)
-    
 
 class ProfileView(viewsets.ModelViewSet):
     queryset = UserProfile.objects.all()
@@ -145,7 +147,7 @@ class ProfileView(viewsets.ModelViewSet):
             
             return Response({'error': 'You are not allowed to retrieve this profile.'}, status=HTTP_403_FORBIDDEN)
     
-    
+    @method_decorator(csrf_exempt)
     def update(self, request, *args, **kwargs):
         usr = request.user
         
