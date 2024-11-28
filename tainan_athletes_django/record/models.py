@@ -15,8 +15,8 @@ class RaceRecord(models.Model):
     date = models.DateField(help_text='比賽日期')
     race_name = models.CharField(max_length=30, help_text='比賽名稱 (30字以內)')
     description = models.TextField(max_length=300, help_text='比賽描述 (300字以內)')
-    proof = models.ImageField(upload_to='uploads/proof/', blank=True, null=True)
-    thumbnail = models.ImageField(upload_to='uploads/proof/thumbnail', blank=True, null=True)
+    proof = models.ImageField(upload_to='assets/proof/', blank=True, null=True)
+    thumbnail = models.ImageField(upload_to='assets/proof/thumbnail', blank=True, null=True)
     
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

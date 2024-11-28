@@ -21,8 +21,8 @@ class UserProfile(models.Model):
     emr_phone = models.CharField(max_length=10, help_text='緊急聯絡電話', blank=True, null=True)
     address = models.CharField(max_length=50, help_text='地址', blank=True, null=True)
     birth = models.DateField(help_text='生日', blank=True, null=True)
-    avatar = models.ImageField(upload_to='uploads/profilePic/', blank=True, null=True)
-    thumbnail = models.ImageField(upload_to='uploads/profilePic/thumbnail', blank=True, null=True)
+    avatar = models.ImageField(upload_to='assets/profilePic/', blank=True, null=True)
+    thumbnail = models.ImageField(upload_to='assets/profilePic/thumbnail', blank=True, null=True)
     
                                  
     # Metadata
