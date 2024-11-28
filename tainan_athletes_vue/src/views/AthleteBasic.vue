@@ -2,82 +2,57 @@
   <div class="app-layout">
     <!-- 側欄 -->
     <AthleteSidebar :profile="profile" :loading="loading" />
+
     <!-- 主畫面 -->
     <div class="main-div">
       <!-- 上方列 -->
-      <div class="upsidebar">
+      <!-- <div class="upsidebar">
         <h1>基本資料</h1>
         <button type="button" class="logout" @click="logout">登出</button>
         <button type="button" class="edit" @click="edit">編輯</button>
-      </div>
+      </div> -->
+      <Upsidebar
+        :title="'基本資料'"
+        :profile="profile"
+        @edit="handleEditProfile"
+      />
+
       <!-- 主頁面 -->
       <main class="main-content">
         <!-- 運動員資料卡片 -->
         <div v-if="!loading" class="profile-section">
           <h2 class="section-title" id="basicData">運動員資料</h2>
-          <div class="profile-card">
-            <div class="profile-photo">
-              <img v-if="profile.avatar" :src="getAvaUrl(profile.avatar)" alt="運動員照片" /> <!-- 載入完且有設定 avatar -->
-              <img v-else src="@/assets/avatar-default.jpg" alt="未設定運動員照片" />
-            </div>
-            <div class="profile-details">
-              <p><strong>姓名：</strong>{{ profile.name }}</p>
-              <p><strong>性別：</strong>{{ getGender(profile.gender) }}</p>
-              <p v-if="profile.birth"><strong>出生日期：</strong>{{ profile.birth }}</p>
-              <p v-else><strong>出生日期：</strong>尚未設定</p>
-              <p v-if="profile.phone"><strong>聯絡電話：</strong>{{ profile.phone }}</p>
-              <p v-else><strong>聯絡電話：</strong>尚未設定</p>
-              <p v-if="profile.email"><strong>電子郵件：</strong>{{ profile.email}}</p>
-              <p v-else><strong>電子郵件：</strong>尚未設定</p>
-              <p v-if="profile.address"><strong>地址：</strong>{{ profile.address }}</p>
-              <p v-else><strong>地址：</strong>尚未設定</p>
-            </div>
-          </div>
+          <ProfileCard :profile="profile" />
         </div>
-
         <!-- 教練資料卡片 -->
         <div class="profile-section">
           <h2 class="section-title" id="coachData">教練資料</h2>
           <div v-if="!loading">
-            <div v-for="coach in coaches" :key="coach.user">
-              <div class="profile-card">
-                <div class="profile-photo">
-                  <img v-if="coach.avatar" :src="coach.avatar" alt="運動員照片" />
-                  <img v-else src="@/assets/avatar-default.jpg" alt="未設定運動員照片" />
-                </div>
-                <div class="profile-details">
-                  <p><strong>姓名：</strong>{{ coach.name }}</p>
-                  <p><strong>性別：</strong>{{ getGender(coach.gender) }}</p>
-                  <p v-if="profile.birth"><strong>出生日期：</strong>{{ coach.birth }}</p>
-                  <p v-else><strong>出生日期：</strong>尚未設定</p>
-                  <p v-if="profile.phone"><strong>聯絡電話：</strong>{{ coach.phone }}</p>
-                  <p v-else><strong>聯絡電話：</strong>尚未設定</p>
-                  <p v-if="profile.email"><strong>電子郵件：</strong>{{ coach.email}}</p>
-                  <p v-else><strong>電子郵件：</strong>尚未設定</p>
-                  <p v-if="profile.address"><strong>地址：</strong>{{ coach.address }}</p>
-                  <p v-else><strong>地址：</strong>尚未設定</p>
-                </div>
-              </div>
-            </div>
+            <ProfileCard v-for="coach in coaches" :key="coach.user" :profile="coach" />
           </div>
         </div>
       </main>
+
       <!-- 頁尾 -->
-      <footer>
-        <p>台南優秀運動員健康管理系統</p>
-      </footer>
+      <Footor />
     </div>
   </div>
 </template>
 
 <script>
 import AthleteSidebar from "@/components/AthleteSidebar.vue";
+import ProfileCard from "@/components/ProfileCard.vue";
+import Footor from "@/components/Footor.vue";
+import Upsidebar from "@/components/Upsidebar.vue";
 import axios from "axios";
 
 export default {
   name: "AtheleBasic",
   components: {
     AthleteSidebar,
+    ProfileCard,
+    Footor,
+    Upsidebar,
   },
   data() {
     return {
@@ -118,25 +93,37 @@ export default {
         alert('獲取教練資料發生問題');
       }
     },
-    async logout() {
-      localStorage.removeItem('Token'); // 移除 Token
-      await axios.get('http://localhost:8000/api/user-data/auth/logout/'); // 發送登出請求
-      axios.defaults.headers.common['Authorization'] = ''; // 清除 axios 的 Authorization Header
-      alert('您已登出');
-      this.$router.push('/login'); // Vue Router 的導航方法
+    async handleEditProfile(profileData) {
+      // 接收來自 UpSidebar 的 profile 資料，並執行後端更新邏輯
+      try {
+        const response = await axios.put(
+          "http://localhost:8000/api/user-data/self/",
+          profileData,
+          {
+            headers: {
+              Authorization: `Token ${localStorage.getItem("Token")}`,
+            },
+          }
+        );
+        alert("資料更新成功");
+        this.profile = response.data; // 更新資料顯示
+      } catch (error) {
+        console.error("資料更新失敗：", error);
+        alert("更新失敗，請稍後再試。");
+      }
     },
-    getGender(genderCode) {
-        const genderMap = {
-          M: "男",
-          F: "女",
-          O: "其他",
-        };
-        return genderMap[genderCode];
-    },
-    getAvaUrl(relativePath) {
-      const baseUrl = "http://localhost:8000"; // 替換為你的後端 URL
-      return `${baseUrl}${relativePath}`;
-    },
+    // getGender(genderCode) {
+    //     const genderMap = {
+    //       M: "男",
+    //       F: "女",
+    //       O: "其他",
+    //     };
+    //     return genderMap[genderCode];
+    // },
+    // getAvaUrl(relativePath) {
+    //   const baseUrl = "http://localhost:8000"; // 替換為你的後端 URL
+    //   return `${baseUrl}${relativePath}`;
+    // },
   },
   mounted() {
     // 組件加載完成後請求資料
@@ -172,56 +159,6 @@ export default {
   flex-direction: column;
   flex: 1;
   position: relative;
-}
-
-/* 個人資料卡樣式 */
-.profile-card {
-  display: flex;
-  align-items: flex-start;
-  border: 1px solid #ddd;
-  border-radius: 10px;
-  padding: 20px;
-  background-color: #f9f9f9;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  margin-bottom: 20px; /* 卡片之間的間距 */
-}
-
-.profile-photo img {
-  width: 120px;
-  height: 120px;
-  border-radius: 50%;
-  margin-right: 20px; /* 圖片與文字之間的間距 */
-}
-
-.profile-details {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  text-align: left;
-}
-
-.profile-details p {
-  margin: 5px 0;
-  font-size: 16px;
-}
-
-.profile-details p strong {
-  font-weight: bold;
-}
-
-/* 頁尾樣式 */
-footer {
-  position: relative; /* 修改為相對定位，避免遮擋主內容 */
-  background-color: #f0f0f0;
-  width: 100%;
-  text-align: center;
-  padding: 10px 0; /* 統一頁尾內邊距 */
-  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
-}
-
-footer p {
-  font-size: small;
-  margin: 0; /* 移除多餘的上下邊距 */
 }
 
 /* 上方列 */
