@@ -1,61 +1,31 @@
 <template>
+  <!-- 側欄 -->
   <aside class="sidebar">
     <div class="logo">
       <img src="@/assets/logo.png" alt="Logo" />
       <h2>台南優秀運動員<br />健康管理系統</h2>
     </div>
     <div class="user-info">
-      <img class="user-avatar" src="@/assets/coach-avatar.png" alt="User Avatar" />
-      <p>李大華</p>
+      <img v-if="!loading && profile.avatar" :src="profile.avatar" alt="運動員照片" class="user-avatar" />
+      <img v-else src="@/assets/avatar-default.jpg" alt="未設定運動員照片" class="user-avatar" />
+      <p v-if="!loading">{{ profile.name }}</p>
     </div>
     <nav>
       <ul>
         <li>
           <span class="menu-title"><router-link to="/coach-basic">>> 使用者基本資料</router-link></span>
           <ul class="submenu">
-            <!-- <li><a href="#basicData">> 基本資料</a></li> -->
-            <!-- <li><a href="#coachData">> 教練資料</a></li> -->
+            <li><a href="#basicData">> 基本資料</a></li>
           </ul>
         </li>
         <li>
           <span class="menu-title"><router-link to="/coach-athlete">>> 運動員資料</router-link></span>
           <ul class="submenu">
-            <!-- <li><a href="#athlete1">> 王曉明</a></li>
-        <li><a href="#athlete2">> 李曉華</a></li> -->
+            <li v-for="athlete in athletes" :key="athlete.id">
+              <a :href="athlete.link">> {{ athlete.name }}</a>
+            </li>
           </ul>
         </li>
-      </ul>
-      <!-- 運動員側邊欄 -->
-      <div class="athlete-info">
-        <img class="user-avatar" src="@/assets/user-avatar.png" alt="User Avatar" />
-        <p>王小明</p>
-      </div>
-      <ul>
-        <li @click="$emit('changeSection', 'basic-info')">
-          <span class="menu-title">>> 使用者基本資料</span>
-          <ul class="submenu">
-            <li><a href="#basicData">> 基本資料</a></li>
-            <li><a href="#coachData">> 教練資料</a></li>
-          </ul>
-        </li>
-        <li @click="$emit('changeSection', 'training-data')">
-          <span class="menu-title">>> 運動訓練數據紀錄</span>
-          <ul class="submenu">
-            <!-- <li><a href="#dataRecord">> 總覽</a></li>
-            <li><a href="#dataAnalyze">> 數據分析</a></li> -->
-          </ul>
-        </li>
-        <li @click="$emit('changeSection', 'competition-data')">
-          <span class="menu-title">>> 競賽紀錄</span>
-          <ul class="submenu">
-            <!-- <li><a href="#">> 總覽</a></li>
-              <li><a href="#">> 數據紀錄</a></li>
-              <li><a href="#">> 特殊紀錄</a></li> -->
-          </ul>
-        </li>
-        <li @click="$emit('changeSection', 'health-data')"><span class="menu-title">>> 健康紀錄</span></li>
-        <li @click="$emit('changeSection', 'nutrition-data')"><span class="menu-title">>> 營養紀錄</span></li>
-        <li @click="$emit('changeSection', 'injury-data')"><span class="menu-title">>> 受傷紀錄</span></li>
       </ul>
     </nav>
   </aside>
@@ -63,7 +33,11 @@
 
 <script>
 export default {
-  name: "CoachSidebar",
+  props: {
+    profile: { type: Object, required: true }, // 接收 profile 資料作為 props
+    loading: { type: Boolean, default: false }, // 接收 loading 狀態
+    athletes: { type: Object, required: true },
+  },
 };
 </script>
 
@@ -74,15 +48,13 @@ export default {
   color: #ffffff;
   width: 250px;
   display: flex;
-  flex-direction: column;
-  /* 垂直排列內容 */
+  flex-direction: column; /* 垂直排列內容 */
   padding: 20px;
   box-sizing: border-box;
 }
 
 nav {
-  overflow-y: auto;
-  /* 垂直滾動 */
+  overflow-y: auto; /* 修改為只垂直滾動 */
 }
 
 /* Logo 區域樣式 */
@@ -103,15 +75,13 @@ nav {
   margin: 0;
   line-height: 1.2;
   position: relative;
-  top: -5px;
-  /* 向上微調文字 */
+  top: -5px; /* 向上微調文字 */
 }
 
 /* 使用者資訊樣式 */
 .user-info {
   margin-bottom: 20px;
   text-align: center;
-  /* flex-direction: row; */
 }
 
 .user-avatar {
@@ -125,25 +95,6 @@ nav {
   font-size: 16px;
   margin: 0;
 }
-
-.athlete-info {
-  margin-bottom: 20px;
-  margin-top: 10px;
-  text-align: center;
-}
-
-.athlete-info .user-avatar {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  margin-bottom: 10;
-}
-
-.athlete-info p {
-  font-size: 14px;
-  margin: 0;
-}
-
 
 /* 列表樣式 */
 ul {

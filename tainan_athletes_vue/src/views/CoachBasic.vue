@@ -1,78 +1,130 @@
 <template>
   <div class="app-layout">
     <!-- 側欄 -->
-    <aside class="sidebar">
-      <div class="logo">
-        <img src="@/assets/logo.png" alt="Logo" />
-        <h2>台南優秀運動員<br />健康管理系統</h2>
-      </div>
-      <div class="user-info">
-        <img class="user-avatar" src="@/assets/coach-avatar.png" alt="User Avatar" />
-        <p>李大華</p>
-      </div>
-      <nav>
-        <ul>
-          <li>
-            <span class="menu-title"><router-link to="/coach-basic">>> 使用者基本資料</router-link></span>
-            <ul class="submenu">
-              <li><a href="#basicData">> 基本資料</a></li>
-              <!-- <li><a href="#coachData">> 教練資料</a></li> -->
-            </ul>
-          </li>
-          <li>
-            <span class="menu-title"><router-link to="/coach-athlete">>> 運動員資料</router-link></span>
-            <ul class="submenu">
-              <!-- <li><a href="#athlete1">> 王小明</a></li>
-              <li><a href="#athlete2">> 李曉華</a></li> -->
-            </ul>
-          </li>
-        </ul>
-      </nav>
-    </aside>
+    <CoachSidebar :profile="profile" :loading="loading" :athletes="athletes" />
+    
     <!-- 主畫面 -->
     <div class="main-div">
       <!-- 上方列 -->
-      <div class="upsidebar">
-        <h1>基本資料</h1>
-        <button type="button" class="logout" @click="logout">登出</button> <!-- 觸發 js -->
-      </div>
+      <Upsidebar
+        :title="'基本資料'"
+        :profile="profile"
+        @edit="openEditModal"
+      />
+
       <!-- 主頁面 -->
       <main class="main-content">
+        <!-- 編輯資料區域 -->
+        <EditProfileModal
+          v-if="isModalVisible"
+          :visible="isModalVisible"
+          :profile="profile"
+          @confirm-edit="handleEditProfile"
+          @close="isModalVisible = false"
+        />
         <!-- 教練資料卡片 -->
-        <div class="profile-section">
-          <h2 class="section-title" id="coachData">教練資料</h2>
-          <div class="profile-card">
-            <div class="profile-photo">
-              <img src="@/assets/coach-avatar.png" alt="教練照片" />
-            </div>
-            <div class="profile-details">
-              <p><strong>姓名：</strong>李大華</p>
-              <p><strong>身分證字號：</strong>B987654321</p>
-              <p><strong>性別：</strong>男</p>
-              <p><strong>出生日期：</strong>1985/05/15</p>
-              <p><strong>聯絡電話：</strong>0987-654-321</p>
-              <p><strong>電子郵件：</strong>coach@mail.com</p>
-              <p><strong>地址：</strong>台北市大安區和平東路一段200號</p>
-            </div>
-          </div>
+        <div v-if="!loading" class="profile-section">
+          <h2 class="section-title" id="basicData">教練資料</h2>
+          <ProfileCard :profile="profile" />
         </div>
       </main>
+
       <!-- 頁尾 -->
-      <footer>
-        <p>台南優秀運動員健康管理系統</p>
-      </footer>
+      <Footor />
     </div>
   </div>
 </template>
 
 <script>
+import CoachSidebar from "@/components/CoachSidebar.vue";
+import ProfileCard from "@/components/ProfileCard.vue";
+import Footor from "@/components/Footor.vue";
+import Upsidebar from "@/components/Upsidebar.vue";
+import EditProfileModal from "@/components/EditProfileModal.vue";
+import axios from "axios";
+
 export default {
-  name: "Sidebar",
+  name: "CoachBasic",
+  components: {
+    CoachSidebar,
+    ProfileCard,
+    Footor,
+    Upsidebar,
+    EditProfileModal,
+  },
+  data() {
+    return {
+      profile: {},
+      athletes: null,
+      loading: true,
+      isModalVisible: false, // 控制彈窗顯示
+    };
+  },
   methods: {
-    logout() {
-      alert('您已登出');
-      this.$router.push('/login'); // Vue Router 的導航方法
+    async fetchUserProfile() {
+      try {
+        const response = await axios.get('http://localhost:8000/api/user-data/self/', {
+          headers: {
+            Authorization: `Token ${localStorage.getItem('Token')}`, // 添加 Authorization Header
+          },
+        });
+
+        this.profile = response.data;
+        // this.loading = false;
+
+      } catch {
+        alert('獲取 Profile 發生問題');
+      }
     },
+    async fetchAthleteProfile() {
+      try {
+        // 發送 GET 請求到 ProfileView 的 list 方法
+        const response = await axios.get('http://localhost:8000/api/user-data/profile', {
+          headers: {
+            Authorization: `Token ${localStorage.getItem('Token')}`, // 添加 Authorization Header
+          },
+        });
+
+        this.athletes = response.data;
+        this.loading = false;
+
+      } catch (error) {
+        alert('獲取教練資料發生問題');
+      }
+    },
+    openEditModal() {
+      this.isModalVisible = true; // 顯示編輯彈窗
+    },
+    async handleEditProfile(updatedProfile) {
+      // 從 Cookie 中獲取 CSRF Token
+      const csrfToken = document.cookie
+        .split("; ")
+        .find((row) => row.startsWith("csrftoken"))
+        ?.split("=")[1];
+
+      // 發送 PATCH 請求到後端
+      try {
+        const response = await axios.patch(
+          "http://localhost:8000/api/user-data/profile/${updatedProfile.id}/",
+          updatedProfile, {
+            headers: {
+              Authorization: `Token ${localStorage.getItem("Token")}`,
+              "X-CSRFToken": csrfToken,
+          },
+        });
+        alert("資料更新成功");
+        this.profile = response.data; // 更新前端顯示的資料
+      } catch (error) {
+        console.error("資料更新失敗：", error);
+        alert("更新失敗，請稍後再試。");
+      }
+      this.isModalVisible = false; // 關閉彈窗
+    },
+  },
+  mounted() {
+    // 組件加載完成後請求資料
+    this.fetchUserProfile();
+    this.fetchAthleteProfile();
   },
 };
 </script>

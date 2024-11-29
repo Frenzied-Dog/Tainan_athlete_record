@@ -46,12 +46,6 @@ export default {
     profile: { type: Object, required: true }, // 接收 profile 資料作為 props
     loading: { type: Boolean, default: false }, // 接收 loading 狀態
   },
-  methods: {
-    getAvaUrl(relativePath) {
-      const baseUrl = "http://localhost:8000"; // 替換為你的後端 URL
-      return `${baseUrl}${relativePath}`;
-    },
-  },
 };
 </script>
 
