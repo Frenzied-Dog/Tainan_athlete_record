@@ -29,9 +29,7 @@
         <li>
           <span class="menu-title"><router-link to="/athlete-competition">>> 競賽紀錄</router-link></span>
           <ul class="submenu">
-            <li><a href="#">> 總覽</a></li>
-            <li><a href="#">> 數據紀錄</a></li>
-            <li><a href="#">> 特殊紀錄</a></li>
+            <li><a href="#dataOverview">> 總覽</a></li>
           </ul>
         </li>
         <li><span class="menu-title"><router-link to="/athlete-health">>> 健康紀錄</router-link></span></li>

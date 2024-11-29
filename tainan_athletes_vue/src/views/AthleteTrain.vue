@@ -101,7 +101,6 @@ export default {
   data() {
     return {
       profile: {},
-      record: {},
       loading: true,
       coaches: null,
       isModalVisible: false, // 控制彈窗顯示
@@ -158,21 +157,6 @@ export default {
 
       } catch {
         alert('獲取 Profile 發生問題');
-      }
-    },
-    async fetchRaceRecord() {
-      try {
-        const response = await axios.get('http://localhost:8000/api/record/Race', {
-          headers: {
-            Authorization: `Token ${localStorage.getItem('Token')}`, // 添加 Authorization Header
-          },
-        });
-
-        this.record = response.data;
-        // this.loading = false;
-      
-      } catch {
-        alert('獲取 RaceRecord 發生問題');
       }
     },
     async fetchBasicInfo() {
@@ -242,7 +226,6 @@ export default {
   },
   mounted() {
     this.fetchUserProfile();
-    this.fetchRaceRecord();
     this.fetchBasicInfo();
     this.fetchPhysicalTest();
   },
@@ -273,34 +256,5 @@ export default {
   flex-direction: column;
   flex: 1;
   position: relative;
-}
-
-/* 表格樣式 */
-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin: 20px 0;
-  font-size: 16px;
-  text-align: left;
-}
-
-table th,
-table td {
-  border: 1px solid #ddd;
-  padding: 8px;
-}
-
-table th {
-  background-color: #f9f9f9;
-  text-align: center;
-}
-
-.title-button:hover {
-  cursor: pointer;
-  background-color: #f0f0f0;
-}
-
-.title-tr {
-  flex-wrap: wrap;
 }
 </style>
