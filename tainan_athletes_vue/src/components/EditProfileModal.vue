@@ -78,6 +78,7 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 2;
 }
 .modal {
   background: #fff;
@@ -86,6 +87,8 @@ export default {
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   width: 400px;
   max-width: 90%;
+  max-height: 70vh; /* 限制彈窗高度 */
+  overflow-y: auto; /* 啟用滾動 */
 }
 .form-group {
   margin-bottom: 15px;

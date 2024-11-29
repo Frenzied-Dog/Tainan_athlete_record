@@ -13,6 +13,8 @@ footer {
   text-align: center;
   padding: 10px 0; /* 統一頁尾內邊距 */
   box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+  margin-top: auto; /* 確保頁尾推至底部 */
+  z-index: 1;
 }
 
 footer p {
