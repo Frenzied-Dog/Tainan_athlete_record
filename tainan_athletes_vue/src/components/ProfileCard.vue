@@ -1,5 +1,5 @@
 <template>
-  <div class="profile-card">
+  <div class="profile-card" @click="handleClick">
     <div class="profile-photo">
       <img v-if="profile.avatar" :src="profile.avatar" alt="照片" />
       <img v-else src="@/assets/avatar-default.jpg" alt="未設定照片" />
@@ -32,6 +32,9 @@ export default {
         O: "其他",
       };
       return genderMap[genderCode];
+    },
+    handleClick() {
+      this.$emit("clk"); // 將點擊事件向上傳遞
     },
   },
 };

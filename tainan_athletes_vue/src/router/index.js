@@ -8,6 +8,8 @@ import CoachBasic from "../views/CoachBasic.vue";
 import CoachAthlete from "../views/CoachAthlete.vue";
 import CoachA1 from "../views/CoachA1.vue";
 
+import CoachAthleteDetail from "@/views/CoachAthleteDetail.vue";
+
 const routes = [
     { path: "/login", name: "Login", component: LogIn },
     { path: "/athlete-basic", name: "AthleteBasic", component: AthleteBasic },
@@ -16,6 +18,7 @@ const routes = [
     { path: "/coach-basic", name: "CoachBasic", component: CoachBasic },
     { path: "/coach-athlete", name: "CoachAthlete", component: CoachAthlete },
     { path: "/coach-a1", name: "CoachA1", component: CoachA1 },
+    { path: "/coach-athlete/:id/", name: "CoachAthleteDetail", component: CoachAthleteDetail },
     { path: "/:pathMatch(.*)*", redirect: "/login" }, // 其他未知路徑導向 login
 ]
 
