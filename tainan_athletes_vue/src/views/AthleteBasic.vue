@@ -109,10 +109,13 @@ export default {
         .find((row) => row.startsWith("csrftoken"))
         ?.split("=")[1];
 
+      delete updatedProfile.avatar;
+      delete updatedProfile.thumbnail;
+
       // 發送 PATCH 請求到後端
       try {
         const response = await axios.patch(
-          "http://localhost:8000/api/user-data/profile/${updatedProfile.id}/",
+          `http://localhost:8000/api/user-data/profile/${updatedProfile.user}`,
           updatedProfile, {
             headers: {
               Authorization: `Token ${localStorage.getItem("Token")}`,

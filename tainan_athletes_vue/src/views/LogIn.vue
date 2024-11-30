@@ -20,6 +20,7 @@
 
 <script>
 import axios from "axios";
+axios.defaults.withCredentials = true;
 
 export default {
   data() {
@@ -32,6 +33,16 @@ export default {
     async handleLogin() {
       try {
         // 發送登入請求到 Django 後端
+        const res = await axios.get("http://localhost:8000/api/user-data/auth/csrf/");
+        if (res.status === 200) {
+          const csrfToken = res.data.csrfToken;
+          axios.defaults.headers.common['X-CSRFToken'] = csrfToken;
+        } else {
+          alert("獲取 CSRF Token 失敗！");
+          return;
+        }
+        
+
         const response = await axios.post("http://localhost:8000/api/user-data/auth/login/", {
           username: this.username,
           password: this.password,

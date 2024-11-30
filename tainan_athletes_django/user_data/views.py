@@ -3,6 +3,7 @@
 # from rest_framework.views import APIView
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
+from django.middleware.csrf import get_token
 
 from django.contrib.auth import authenticate
 from rest_framework import viewsets
@@ -23,9 +24,17 @@ from .models import UserProfile
 from .serializers import ProfileSerializer
 from .authentication import expires_in, is_token_expired, token_expire_handler
 
+
+@api_view(["GET"])
+@permission_classes((AllowAny,))
+def get_csrf(request):
+    return Response({'csrfToken': get_token(request)}, status=HTTP_200_OK)
+
+
 @api_view(["POST"])
 @permission_classes((AllowAny,))  # here we specify permission by default we set IsAuthenticated
 def signin(request):
+    
     username = request.data.get("username")
     password = request.data.get("password")
 
