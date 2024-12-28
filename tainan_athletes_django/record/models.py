@@ -94,7 +94,7 @@ class BasicInfo(models.Model):
     height = models.FloatField(help_text='身高')
     weight = models.FloatField(help_text='體重')
     BMI = models.FloatField(help_text='BMI')
-    musule_mass = models.FloatField(help_text='肌肉量')
+    muscle_mass = models.FloatField(help_text='肌肉量')
     body_fat = models.FloatField(help_text='體脂率')
     test_date = models.DateField(help_text='測試日期')
         
